@@ -1,17 +1,14 @@
 package com.tudor;
 
-import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 final class UserData {
 
     private static final UserData instance = new UserData();
-
     private List<User> users = new ArrayList<>();
 
     private UserData(){}
@@ -20,18 +17,17 @@ final class UserData {
         return UserData.instance;
     }
 
-    boolean loadUsers(String fileName){
-        Path path = FileSystems.getDefault().getPath(fileName);
+    boolean loadUsers(String path){
 
-        if(!Files.exists(path)){
+        if(path == null){
             return false;
         }
 
-        String tmp;
+        File file = new File(path);
 
-        try(BufferedReader br = Files.newBufferedReader(path)){
-            while((tmp = br.readLine()) != null){
-                String[] data = tmp.split(" ");
+        try(Scanner s = new Scanner(file)){
+            while(s.hasNextLine()){
+                String[] data = s.nextLine().split(" ");
                 if(data.length == 2){
                     User newUser = new User(data[0], data[1]);
                     users.add(newUser);

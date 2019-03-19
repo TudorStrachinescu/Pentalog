@@ -6,22 +6,15 @@ public class Main {
 
     private static UserData data = UserData.getInstance();
     private static Scanner s = new Scanner(System.in);
+    private static String path = Main.class.getClassLoader().getResource("data.txt").getFile();
 
     private static String loggedUser = null;
 
     public static void main(String[] args) {
-        String fileName;
 
-        while(true){
-            System.out.println("Give file name for stored user data\nor type 'quit' to exit: ");
-            fileName = s.nextLine();
-            if(data.loadUsers(fileName)){
-                break;
-            } else if(fileName.equalsIgnoreCase("QUIT")){
-                return;
-            } else {
-                System.out.println("Invalid file name or file does not contain valid data");
-            }
+        if (!data.loadUsers(path)) {
+            System.out.println("File does not contain valid data");
+            return;
         }
 
         System.out.println("Data loaded");
