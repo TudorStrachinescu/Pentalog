@@ -1,19 +1,22 @@
 package com.tudor;
 
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.Scanner;
 
 public class Main {
 
     private static UserData data = UserData.getInstance();
     private static Scanner s = new Scanner(System.in);
-    private static String path = Main.class.getClassLoader().getResource("data.txt").getFile();
+    private static final String FILE_PATH = "src\\main\\resources\\data.txt";
 
     private static String loggedUser = null;
 
     public static void main(String[] args) {
+        Path path = FileSystems.getDefault().getPath(FILE_PATH);
 
         if (!data.loadUsers(path)) {
-            System.out.println("File does not contain valid data");
+            System.out.println("File does not exist or does not contain valid data");
             return;
         }
 

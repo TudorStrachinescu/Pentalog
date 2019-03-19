@@ -1,10 +1,11 @@
 package com.tudor;
 
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 final class UserData {
 
@@ -17,23 +18,22 @@ final class UserData {
         return UserData.instance;
     }
 
-    boolean loadUsers(String path){
+    boolean loadUsers(Path path){
 
-        if(path == null){
+        if(!Files.exists(path)){
             return false;
         }
 
-        File file = new File(path);
-
-        try(Scanner s = new Scanner(file)){
-            while(s.hasNextLine()){
-                String[] data = s.nextLine().split(" ");
-                if(data.length == 2){
+        try(BufferedReader br = Files.newBufferedReader(path)){
+            String tmp;
+            while((tmp = br.readLine()) != null){
+                String[] data = tmp.split(" ");
+                if(data.length  == 2){
                     User newUser = new User(data[0], data[1]);
                     users.add(newUser);
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException e){
             System.out.println(e.getMessage());
         }
 
