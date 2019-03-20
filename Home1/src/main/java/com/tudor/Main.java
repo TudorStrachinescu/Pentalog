@@ -1,5 +1,6 @@
 package com.tudor;
 
+import java.io.File;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.Scanner;
@@ -8,7 +9,8 @@ public class Main {
 
     private static UserData data = UserData.getInstance();
     private static Scanner s = new Scanner(System.in);
-    private static final String FILE_PATH = "src\\main\\resources\\data.txt";
+    private static final String FILE_PATH = "src" + File.separator + "main" +
+            File.separator + "resources" + File.separator +"data.txt";
 
     private static String loggedUser = null;
 
