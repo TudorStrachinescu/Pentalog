@@ -3,3 +3,7 @@ admin password
 john doe
 any thing
 buhu huuu
+hello world
+hello world
+ana mere
+admin 1234

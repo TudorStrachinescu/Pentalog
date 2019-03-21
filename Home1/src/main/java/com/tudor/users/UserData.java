@@ -1,4 +1,4 @@
-package com.tudor;
+package com.tudor.users;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,21 +7,22 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-final class UserData {
+public final class UserData{
 
     private static final UserData instance = new UserData();
     private List<User> users = new ArrayList<>();
 
     private UserData(){}
 
-    static UserData getInstance(){
+    public static UserData getInstance(){
         return UserData.instance;
     }
 
-    boolean loadUsers(Path path){
+    public void loadUsers (Path path) throws LoadFileException{
+        String fileName = path.getFileName().toString();
 
         if(!Files.exists(path)){
-            return false;
+            throw new LoadFileException("File " + fileName + " not found");
         }
 
         try(BufferedReader br = Files.newBufferedReader(path)){
@@ -30,20 +31,24 @@ final class UserData {
                 String[] data = tmp.split(" ");
                 if(data.length  == 2){
                     User newUser = new User(data[0], data[1]);
-                    users.add(newUser);
+                    if(!checkUser(newUser)) {
+                        this.users.add(newUser);
+                    }
                 }
             }
         } catch (IOException e){
-            System.out.println(e.getMessage());
+            throw new LoadFileException("Error retrieving data: " + e.getMessage());
         }
 
-        return (users.size() > 0);
+        if(users.size() == 0) {
+            throw new LoadFileException(fileName + " does not contain valid data");
+        }
     }
 
-    boolean exists(String name, String password){
-        if(users.size() > 0){
-            for(User u : users){
-                if(u.userMatch(name, password)){
+    public boolean checkUser(User user){
+        if(this.users.size() > 0){
+            for(User u : this.users){
+                if(u.equals(user)){
                     return true;
                 }
             }

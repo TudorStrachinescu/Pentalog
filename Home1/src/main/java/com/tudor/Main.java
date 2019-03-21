@@ -1,5 +1,9 @@
 package com.tudor;
 
+import com.tudor.logging.LogException;
+import com.tudor.logging.Logger;
+import com.tudor.users.LoadFileException;
+import com.tudor.users.UserData;
 import java.io.File;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
@@ -8,17 +12,18 @@ import java.util.Scanner;
 public class Main {
 
     private static UserData data = UserData.getInstance();
+    private static Logger log = Logger.getInstance();
     private static Scanner s = new Scanner(System.in);
     private static final String FILE_PATH = "src" + File.separator + "main" +
             File.separator + "resources" + File.separator +"data.txt";
 
-    private static String loggedUser = null;
-
     public static void main(String[] args) {
         Path path = FileSystems.getDefault().getPath(FILE_PATH);
 
-        if (!data.loadUsers(path)) {
-            System.out.println("File does not exist or does not contain valid data");
+        try {
+            data.loadUsers(path);
+        } catch (LoadFileException e){
+            System.out.println(e.getMessage());
             return;
         }
 
@@ -48,14 +53,24 @@ public class Main {
                     printMenu();
                     break;
                 case 2:
-                    logIn();
+                    try {
+                        log.logIn();
+                    } catch (LogException e){
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 3:
-                    logOut();
+                    if(log.logOut()){
+                        System.out.println("Successfully logged out");
+                    } else {
+                        System.out.println("There is no user logged in");
+                    }
                     break;
                 case 4:
-                    if(exit()){
+                    if(log.noUserLogged()){
                         run = false;
+                    } else {
+                        System.out.println("Cannot log out, app is in use");
                     }
                     break;
                 default:
@@ -71,42 +86,5 @@ public class Main {
         System.out.println("\t2. Log in");
         System.out.println("\t3. Log out");
         System.out.println("\t4. Exit");
-    }
-
-    private static void logIn(){
-        if(loggedUser == null) {
-            System.out.println("Logging in");
-            System.out.println("Name: ");
-            String userName = s.nextLine();
-            System.out.println("Password: ");
-            String userPassword = s.nextLine();
-
-            if (data.exists(userName, userPassword)) {
-                System.out.println("Welcome " + userName);
-                loggedUser = userName;
-            } else {
-                System.out.println("Wrong username/password");
-            }
-        } else {
-            System.out.println("Cannot log in while app is in use by " + loggedUser);
-        }
-    }
-
-    private static void logOut(){
-        if(loggedUser == null){
-            System.out.println("There are no users logged in");
-        } else {
-            loggedUser = null;
-            System.out.println("Successfully logged out");
-        }
-    }
-
-    private static boolean exit(){
-        if(loggedUser != null){
-            System.out.println("Cannot exit, app in use by " + loggedUser);
-            return false;
-        }
-
-        return true;
     }
 }
