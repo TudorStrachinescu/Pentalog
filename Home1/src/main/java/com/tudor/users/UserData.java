@@ -1,5 +1,7 @@
 package com.tudor.users;
 
+import com.tudor.exceptions.LoadFileException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,7 +20,7 @@ public final class UserData{
         return UserData.instance;
     }
 
-    public void loadUsers (Path path) throws LoadFileException{
+    public void loadUsers (Path path) throws LoadFileException {
         String fileName = path.getFileName().toString();
 
         if(!Files.exists(path)){

@@ -1,20 +1,16 @@
-package com.tudor.logging;
+package com.tudor.authentication;
 
+import com.tudor.exceptions.LogException;
 import com.tudor.users.User;
 import com.tudor.users.UserData;
 import java.util.Scanner;
 
-public class Logger {
-    private static final Logger instance = new Logger();
+public class UserAuthentication {
 
     private static UserData data = UserData.getInstance();
     private User loggedUser = null;
 
-    public static Logger getInstance(){
-        return Logger.instance;
-    }
-
-    public void logIn() throws LogException{
+    public void logIn() throws LogException {
 
         if (loggedUser == null) {
             Scanner s = new Scanner(System.in);
@@ -49,5 +45,9 @@ public class Logger {
 
     public boolean noUserLogged() {
         return(loggedUser == null);
+    }
+
+    public User getLoggedUser() {
+        return loggedUser;
     }
 }

@@ -1,7 +1,7 @@
-package com.tudor.logging;
+package com.tudor.exceptions;
 
 public class LogException extends Exception{
-    LogException(String message) {
+    public LogException(String message) {
         super(message);
     }
 }

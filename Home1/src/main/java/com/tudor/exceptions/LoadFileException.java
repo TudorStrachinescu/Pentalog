@@ -1,7 +1,7 @@
-package com.tudor.users;
+package com.tudor.exceptions;
 
 public class LoadFileException extends Exception {
-    LoadFileException(String message) {
+    public LoadFileException(String message) {
         super(message);
     }
 }
