@@ -6,7 +6,7 @@ import com.tudor.exceptions.LogException;
 import java.util.Scanner;
 
 public class Menu {
-    private UserAuthentication user = new UserAuthentication();
+    private UserAuthentication accessingUser = new UserAuthentication();
 
     public void runApp(){
         Scanner s = new Scanner(System.in);
@@ -36,23 +36,23 @@ public class Menu {
                     break;
                 case 2:
                     try {
-                        user.logIn();
+                        accessingUser.logIn();
                     } catch (LogException e){
                         System.out.println(e.getMessage());
                     }
                     break;
                 case 3:
-                    if(user.logOut()){
+                    if(accessingUser.logOut()){
                         System.out.println("Successfully logged out");
                     } else {
-                        System.out.println("There is no user logged in");
+                        System.out.println("There is no accessingUser logged in");
                     }
                     break;
                 case 4:
-                    if(user.noUserLogged()){
+                    if(accessingUser.noUserLogged()){
                         run = false;
                     } else {
-                        System.out.println("Cannot user out, app is in use");
+                        System.out.println("Cannot accessingUser out, app is in use");
                     }
                     break;
                 default:
@@ -63,12 +63,12 @@ public class Menu {
     private void printMenu(){
         System.out.println("Main menu:");
         System.out.println("\t1. Print this menu");
-        if(user.noUserLogged()) {
+        if(accessingUser.noUserLogged()) {
             System.out.println("\t2. Log in");
         } else {
             System.out.println("\t3. Log out");
         }
-        if(user.noUserLogged()) {
+        if(accessingUser.noUserLogged()) {
             System.out.println("\t4. Exit");
         }
     }

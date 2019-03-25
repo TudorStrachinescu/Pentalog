@@ -3,7 +3,9 @@ package com.tudor.users;
 import com.tudor.exceptions.LoadFileException;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -11,16 +13,25 @@ import java.util.List;
 
 public final class UserData{
 
+    private static final String FILE_PATH = "src" + File.separator + "main" +
+            File.separator + "resources" + File.separator +"data.txt";
+
     private static final UserData instance = new UserData();
     private List<User> users = new ArrayList<>();
 
-    private UserData(){}
+    private UserData(){
+        try {
+            loadUsers(FileSystems.getDefault().getPath(FILE_PATH));
+        } catch (LoadFileException e){
+            System.out.println(e.getMessage());
+        }
+    }
 
     public static UserData getInstance(){
         return UserData.instance;
     }
 
-    public void loadUsers (Path path) throws LoadFileException {
+    private void loadUsers (Path path) throws LoadFileException {
         String fileName = path.getFileName().toString();
 
         if(!Files.exists(path)){
