@@ -1,9 +1,10 @@
-package com.tudor.users;
+package com.tudor.dataLoading;
 
 import com.tudor.exceptions.LoadFileException;
+import com.tudor.modelClasses.User;
+import com.tudor.staticVariables.FilePaths;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -13,15 +14,12 @@ import java.util.List;
 
 public final class UserData{
 
-    private static final String FILE_PATH = "src" + File.separator + "main" +
-            File.separator + "resources" + File.separator +"data.txt";
-
     private static final UserData instance = new UserData();
     private List<User> users = new ArrayList<>();
 
     private UserData(){
         try {
-            loadUsers(FileSystems.getDefault().getPath(FILE_PATH));
+            loadUsers(FileSystems.getDefault().getPath(FilePaths.USERS_FILE_PATH));
         } catch (LoadFileException e){
             System.out.println(e.getMessage());
         }
@@ -41,6 +39,7 @@ public final class UserData{
         try(BufferedReader br = Files.newBufferedReader(path)){
             String tmp;
             while((tmp = br.readLine()) != null){
+                tmp = tmp.replaceAll("\\s+", " ");
                 String[] data = tmp.split(" ");
                 if(data.length  == 2){
                     User newUser = new User(data[0], data[1]);

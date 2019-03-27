@@ -1,25 +1,24 @@
 package com.tudor.authentication;
 
-import com.tudor.exceptions.LogException;
-import com.tudor.users.User;
-import com.tudor.users.UserData;
-import java.util.Scanner;
+import com.tudor.appMenu.RetrieveInfoFromConsole;
+import com.tudor.exceptions.UserLogException;
+import com.tudor.modelClasses.User;
+import com.tudor.dataLoading.UserData;
 
 public class UserAuthentication {
 
-    private static UserData data = UserData.getInstance();
+    private UserData data = UserData.getInstance();
     private User loggedUser = null;
 
-    public void logIn() throws LogException {
+    public void logIn() throws UserLogException {
+        RetrieveInfoFromConsole scan = new RetrieveInfoFromConsole();
 
         if (loggedUser == null) {
-            Scanner s = new Scanner(System.in);
-
             System.out.println("Logging in");
             System.out.println("Name: ");
-            String userName = s.nextLine();
+            String userName = scan.getStringFromConsole();
             System.out.println("Password: ");
-            String userPassword = s.nextLine();
+            String userPassword = scan.getStringFromConsole();
 
             User user = new User(userName, userPassword);
 
@@ -27,10 +26,10 @@ public class UserAuthentication {
                 System.out.println("Welcome " + userName);
                 loggedUser = user;
             } else {
-                throw new LogException("Wrong username/password");
+                throw new UserLogException("Wrong username/password");
             }
         } else {
-            throw new LogException("Cannot log in.\nApp in use by " + loggedUser.getName());
+            throw new UserLogException("Cannot log in.\nApp in use by " + loggedUser.getName());
         }
     }
 

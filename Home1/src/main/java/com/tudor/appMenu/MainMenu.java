@@ -1,72 +1,69 @@
 package com.tudor.appMenu;
 
 import com.tudor.authentication.UserAuthentication;
-import com.tudor.exceptions.LogException;
+import com.tudor.exceptions.UserLogException;
 
-import java.util.Scanner;
-
-public class Menu {
+public class MainMenu {
     private UserAuthentication accessingUser = new UserAuthentication();
 
     public void runApp(){
-        Scanner s = new Scanner(System.in);
-
         boolean run = true;
 
         printMenu();
 
         while(run){
+            RetrieveInfoFromConsole scan = new RetrieveInfoFromConsole();
 
-            int choice;
-            while(true){
-                System.out.print("Choose an option(1 for options menu): ");
-                if(s.hasNextInt()){
-                    choice = s.nextInt();
-                    s.nextLine();
-                    break;
-                } else {
-                    System.out.println("Please provide a valid input");
-                }
-                s.nextLine();
-            }
+            System.out.print("Choose an option: ");
+
+            int choice = scan.getIntFromConsole();
 
             switch(choice){
                 case 1:
-                    printMenu();
-                    break;
-                case 2:
                     try {
                         accessingUser.logIn();
-                    } catch (LogException e){
+                    } catch (UserLogException e){
                         System.out.println(e.getMessage());
                     }
+
                     break;
-                case 3:
+                case 2:
                     if(accessingUser.logOut()){
                         System.out.println("Successfully logged out");
                     } else {
                         System.out.println("There is no accessingUser logged in");
+                    }
+
+                    break;
+                case 3:
+                    if(!accessingUser.noUserLogged()) {
+                        AccountMenu accountDetails = new AccountMenu(accessingUser.getLoggedUser());
+                        accountDetails.run();
                     }
                     break;
                 case 4:
                     if(accessingUser.noUserLogged()){
                         run = false;
                     } else {
-                        System.out.println("Cannot accessingUser out, app is in use");
+                        System.out.println("You must log out before closing app");
                     }
+
                     break;
                 default:
                     break;
             }
+
+            printMenu();
         }
     }
     private void printMenu(){
         System.out.println("Main menu:");
-        System.out.println("\t1. Print this menu");
         if(accessingUser.noUserLogged()) {
-            System.out.println("\t2. Log in");
+            System.out.println("\t1. Log in");
+
         } else {
-            System.out.println("\t3. Log out");
+            System.out.println("\t2. Log out");
+            System.out.println("\t3. Account menu");
         }
         if(accessingUser.noUserLogged()) {
             System.out.println("\t4. Exit");

@@ -1,4 +1,4 @@
-package com.tudor.users;
+package com.tudor.modelClasses;
 
 import java.util.Objects;
 
