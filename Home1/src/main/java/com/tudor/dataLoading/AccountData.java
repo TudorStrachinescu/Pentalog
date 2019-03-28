@@ -7,6 +7,7 @@ import com.tudor.staticVariables.FilePaths;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -71,13 +72,15 @@ public final class AccountData {
 
             if(accCurr != AccountCurrency.Invalid && isValidAccountFormat(accountNumber)) {
                 boolean isValidBalance = true;
-                double balance = 0;
+
+                double amount = 0d;
                 try {
-                    balance = Double.parseDouble(data[2]);
+                    amount = Double.parseDouble(data[2]);
                 } catch (NumberFormatException e) {
                     System.out.println("Invalid balance");
                     isValidBalance = false;
                 }
+                BigDecimal balance = new BigDecimal(amount);
                 if(isValidBalance){
                     testAccount = Optional.of(new Account(accountNumber, accountName, balance, accCurr));
                 }

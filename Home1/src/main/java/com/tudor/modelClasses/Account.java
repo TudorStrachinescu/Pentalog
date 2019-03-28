@@ -2,15 +2,16 @@ package com.tudor.modelClasses;
 
 import com.tudor.staticVariables.AccountCurrency;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Account {
     private String accountNumber;
     private String userName;
-    private double balance;
+    private BigDecimal balance;
     private AccountCurrency accountType;
 
-    public Account(String accountNumber, String userName, double balance, AccountCurrency accountType) {
+    public Account(String accountNumber, String userName, BigDecimal balance, AccountCurrency accountType) {
         this.accountNumber = accountNumber;
         this.userName = userName;
         this.balance = balance;

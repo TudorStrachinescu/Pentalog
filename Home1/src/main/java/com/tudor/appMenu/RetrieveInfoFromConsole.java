@@ -3,12 +3,32 @@ package com.tudor.appMenu;
 import com.tudor.dataLoading.AccountData;
 import com.tudor.staticVariables.AccountCurrency;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 public final class RetrieveInfoFromConsole {
     private Scanner s = new Scanner(System.in);
 
-    public int getIntFromConsole(){
+    public BigDecimal getBalanceFromConsole(){
+        Scanner s = new Scanner(System.in);
+
+        int out;
+
+        while(true){
+            if(s.hasNextInt()){
+                out = s.nextInt();
+                s.nextLine();
+                break;
+            } else {
+                System.out.println("Please provide a numeric value");
+            }
+            s.nextLine();
+        }
+
+        return new BigDecimal(out);
+    }
+
+    int getIntFromConsole(){
         Scanner s = new Scanner(System.in);
 
         int out;

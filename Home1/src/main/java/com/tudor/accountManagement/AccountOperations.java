@@ -6,6 +6,8 @@ import com.tudor.modelClasses.Account;
 import com.tudor.modelClasses.User;
 import com.tudor.staticVariables.AccountCurrency;
 
+import java.math.BigDecimal;
+
 public class AccountOperations {
 
     private AccountData accountData = AccountData.getInstance();
@@ -28,7 +30,7 @@ public class AccountOperations {
         String accountNumber = scan.getAccountNumberFromConsole();
         String accountName = user.getName();
         System.out.println("Please input balance amount:");
-        double amount = scan.getIntFromConsole();
+        BigDecimal amount = scan.getBalanceFromConsole();
         System.out.println("Please input your currency('Ron' or 'Euro')");
         AccountCurrency accountCurr = scan.getCurrencyFromConsole();
         Account acc = new Account(accountNumber, accountName, amount, accountCurr);
