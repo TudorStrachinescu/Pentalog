@@ -1,9 +1,12 @@
 package com.tudor.dataLoading;
 
+import com.tudor.exceptions.LoadAccountException;
 import com.tudor.exceptions.LoadFileException;
 import com.tudor.modelClasses.Account;
 import com.tudor.staticVariables.AccountCurrency;
 import com.tudor.staticVariables.FilePaths;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +21,8 @@ import static com.tudor.staticVariables.AccountCurrency.getCurrency;
 
 public final class AccountData {
 
-    private final static AccountData accountsData = new AccountData();
+    private final Logger logger = LogManager.getLogger(AccountData.class.getName());
+    private static final AccountData accountsData = new AccountData();
     private List<Account> accountList = new ArrayList<>();
 
     public static AccountData getInstance() {
@@ -29,7 +33,7 @@ public final class AccountData {
         try {
             loadAccountData(FileSystems.getDefault().getPath(FilePaths.ACCOUNT_FILE_PATH));
         } catch (LoadFileException e){
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
     }
 
@@ -42,13 +46,22 @@ public final class AccountData {
 
         try(BufferedReader br = Files.newBufferedReader(path)){
             String line;
+            Optional<Account> newAccount = Optional.empty();
+
+            int index = 1;
+
             while((line = br.readLine()) != null){
-                Optional<Account> newAccount = getAccountIfValid(line);
+                try {
+                    newAccount = getAccountIfValid(line);
+                } catch (LoadAccountException e){
+                    logger.debug("Line " + index + ": " + e.getMessage());
+                }
                 if(newAccount.isPresent()){
                     if(!checkAccount(newAccount.get())) {
                         this.accountList.add(newAccount.get());
                     }
                 }
+                index++;
             }
         } catch (IOException e){
             throw new LoadFileException("Error retrieving data: " + e.getMessage());
@@ -59,7 +72,7 @@ public final class AccountData {
         }
     }
 
-    private Optional<Account> getAccountIfValid(String line){
+    private Optional<Account> getAccountIfValid(String line) throws LoadAccountException {
         Optional<Account> testAccount = Optional.empty();
         line = line.replaceAll("\\s+", " ");
 
@@ -67,23 +80,24 @@ public final class AccountData {
 
         if(data.length == 4){
             String accountNumber = data[0].toUpperCase();
+            if(!isValidAccountFormat(accountNumber)){
+                throw new LoadAccountException("Invalid account number");
+            }
             String accountName = data[1];
             AccountCurrency accCurr = getCurrency(data[3]);
 
             if(accCurr != AccountCurrency.Invalid && isValidAccountFormat(accountNumber)) {
-                boolean isValidBalance = true;
 
                 double amount = 0d;
                 try {
                     amount = Double.parseDouble(data[2]);
                 } catch (NumberFormatException e) {
-                    System.out.println("Invalid balance");
-                    isValidBalance = false;
+                    throw new LoadAccountException("Invalid balance");
                 }
                 BigDecimal balance = new BigDecimal(amount);
-                if(isValidBalance){
-                    testAccount = Optional.of(new Account(accountNumber, accountName, balance, accCurr));
-                }
+                testAccount = Optional.of(new Account(accountNumber, accountName, balance, accCurr));
+            } else {
+                throw new LoadAccountException("Invalid currency");
             }
         }
 

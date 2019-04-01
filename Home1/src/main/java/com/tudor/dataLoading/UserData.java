@@ -3,6 +3,8 @@ package com.tudor.dataLoading;
 import com.tudor.exceptions.LoadFileException;
 import com.tudor.modelClasses.User;
 import com.tudor.staticVariables.FilePaths;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,6 +16,7 @@ import java.util.List;
 
 public final class UserData{
 
+    private final Logger logger = LogManager.getLogger(AccountData.class.getName());
     private static final UserData instance = new UserData();
     private List<User> users = new ArrayList<>();
 
@@ -21,7 +24,7 @@ public final class UserData{
         try {
             loadUsers(FileSystems.getDefault().getPath(FilePaths.USERS_FILE_PATH));
         } catch (LoadFileException e){
-            System.out.println(e.getMessage());
+            logger.debug(e.getMessage());
         }
     }
 
@@ -38,6 +41,8 @@ public final class UserData{
 
         try(BufferedReader br = Files.newBufferedReader(path)){
             String tmp;
+            int index = 1;
+
             while((tmp = br.readLine()) != null){
                 tmp = tmp.replaceAll("\\s+", " ");
                 String[] data = tmp.split(" ");
@@ -46,7 +51,11 @@ public final class UserData{
                     if(!checkUser(newUser)) {
                         this.users.add(newUser);
                     }
+                } else {
+                    logger.debug("Line " + index + ": Invalid data");
                 }
+
+                index++;
             }
         } catch (IOException e){
             throw new LoadFileException("Error retrieving data: " + e.getMessage());
@@ -54,6 +63,8 @@ public final class UserData{
 
         if(users.size() == 0) {
             throw new LoadFileException(fileName + " does not contain valid data");
+        } else {
+            logger.info("User data loaded");
         }
     }
 
