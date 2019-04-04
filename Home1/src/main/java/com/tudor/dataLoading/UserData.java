@@ -17,19 +17,14 @@ import java.util.List;
 public final class UserData{
 
     private final Logger logger = LogManager.getLogger(AccountData.class.getName());
-    private static final UserData instance = new UserData();
     private List<User> users = new ArrayList<>();
 
-    private UserData(){
+    public UserData(){
         try {
             loadUsers(FileSystems.getDefault().getPath(FilePaths.USERS_FILE_PATH));
         } catch (LoadFileException e){
             logger.debug(e.getMessage());
         }
-    }
-
-    public static UserData getInstance(){
-        return UserData.instance;
     }
 
     private void loadUsers (Path path) throws LoadFileException {
@@ -52,7 +47,7 @@ public final class UserData{
                         this.users.add(newUser);
                     }
                 } else {
-                    logger.debug("Line " + index + ": Invalid data");
+                    logger.debug("Line " + index + ": INVALID data");
                 }
 
                 index++;

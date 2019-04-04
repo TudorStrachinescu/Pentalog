@@ -39,6 +39,8 @@ public class MainMenu {
                     if(!accessingUser.noUserLogged()) {
                         AccountMenu accountDetails = new AccountMenu(accessingUser.getLoggedUser());
                         accountDetails.run();
+                    } else {
+                        System.out.println("Invalid option!");
                     }
                     break;
                 case 4:
@@ -50,10 +52,15 @@ public class MainMenu {
 
                     break;
                 default:
+                    System.out.println("Invalid option!");
                     break;
             }
 
-            printMenu();
+            if(run){
+                printMenu();
+            } else {
+                System.out.println("Closing Application ...");
+            }
         }
     }
     private void printMenu(){

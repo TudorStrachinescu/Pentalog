@@ -1,10 +1,12 @@
 package com.tudor.appMenu;
 
 import com.tudor.accountManagement.AccountOperations;
+import com.tudor.authentication.AuthenticatedUserData;
 import com.tudor.modelClasses.User;
 
 class AccountMenu {
     private AccountOperations op = new AccountOperations();
+    private AuthenticatedUserData userData = AuthenticatedUserData.getInstance();
     private User accessingUser;
 
     AccountMenu(User accessingUser) {
@@ -32,14 +34,25 @@ class AccountMenu {
                     }
                     break;
                 case 2:
-                    if(!op.printAccount(accessingUser)){
+                    if(userData.getUserAccounts().size() < 1){
                         System.out.println("There is no account information for " + accessingUser.getName());
+                    } else {
+                        op.printAccounts(userData.getUserAccounts());
+                        System.out.println("User: " + accessingUser.getName());
                     }
                     break;
                 case 3:
+                    if(userData.getUserAccounts().size() < 1){
+                        System.out.println("There is no account information for " + accessingUser.getName());
+                    } else {
+                        op.ownAccountsTransfer();
+                    }
+                    break;
+                case 4:
                     run = false;
                     break;
                 default:
+                    System.out.println("Invalid option!");
                     break;
             }
 
@@ -51,6 +64,7 @@ class AccountMenu {
         System.out.println("Account Menu:");
         System.out.println("\t1. Create account");
         System.out.println("\t2. Inspect account");
-        System.out.println("\t3. Back");
+        System.out.println("\t3. Transfer between own accounts");
+        System.out.println("\t4. Back");
     }
 }

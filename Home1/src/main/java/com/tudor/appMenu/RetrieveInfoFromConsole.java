@@ -9,26 +9,21 @@ import java.util.Scanner;
 public final class RetrieveInfoFromConsole {
     private Scanner s = new Scanner(System.in);
 
-    public BigDecimal getBalanceFromConsole(){
-        Scanner s = new Scanner(System.in);
-
-        int out;
-
-        while(true){
-            if(s.hasNextInt()){
-                out = s.nextInt();
-                s.nextLine();
-                break;
-            } else {
-                System.out.println("Please provide a numeric value");
-            }
-            s.nextLine();
+    public int getIntInRangeFromConsole(int low, int high){
+        int s = getIntFromConsole();
+        while(s < low || s > high){
+            System.out.println("Please enter a number between " + low + " and " + high);
+            s = getIntFromConsole();
         }
 
-        return new BigDecimal(out);
+        return s;
     }
 
-    int getIntFromConsole(){
+    public BigDecimal getBalanceFromConsole(){
+        return new BigDecimal(getIntFromConsole());
+    }
+
+    public int getIntFromConsole(){
         Scanner s = new Scanner(System.in);
 
         int out;
@@ -57,15 +52,15 @@ public final class RetrieveInfoFromConsole {
         while(true){
             in = s.nextLine().toUpperCase();
             AccountCurrency c = AccountCurrency.getCurrency(in);
-            if(c != AccountCurrency.Invalid){
+            if(c != AccountCurrency.INVALID){
                 return c;
             }
-            System.out.println("Please input currency('Ron' or 'Euro')");
+            System.out.println("Please input currency('RON' or 'EURO')");
         }
     }
 
     public String getAccountNumberFromConsole(){
-        AccountData data = AccountData.getInstance();
+        AccountData data = new AccountData();
         String in;
 
         while(true){

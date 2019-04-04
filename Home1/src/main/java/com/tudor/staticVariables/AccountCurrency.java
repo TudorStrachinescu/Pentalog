@@ -1,18 +1,18 @@
 package com.tudor.staticVariables;
 
 public enum AccountCurrency {
-    Ron,
-    Euro,
-    Invalid;
+    RON,
+    EURO,
+    INVALID;
 
     public static AccountCurrency getCurrency(String currency){
         switch(currency.toUpperCase()){
             case "RON":
-                return Ron;
+                return RON;
             case "EURO":
-                return Euro;
+                return EURO;
             default:
-                return Invalid;
+                return INVALID;
         }
     }
 }

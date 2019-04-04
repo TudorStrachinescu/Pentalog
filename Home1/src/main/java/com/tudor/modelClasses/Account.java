@@ -11,6 +11,8 @@ public class Account {
     private BigDecimal balance;
     private AccountCurrency accountType;
 
+    public Account(){}
+
     public Account(String accountNumber, String userName, BigDecimal balance, AccountCurrency accountType) {
         this.accountNumber = accountNumber;
         this.userName = userName;
@@ -29,11 +31,15 @@ public class Account {
 
     @Override
     public int hashCode() {
-        return Objects.hash(userName);
+        return Objects.hash(userName)+ Objects.hash(accountNumber);
     }
 
     private String getAccountNumber() {
         return accountNumber;
+    }
+
+    public AccountCurrency getAccountType() {
+        return accountType;
     }
 
     public String getUserName() {
@@ -47,5 +53,18 @@ public class Account {
                 ", balance=" + balance +
                 ", accountType=" + accountType +
                 '}';
+    }
+
+    public boolean withdrawal(BigDecimal amount){
+        if(this.balance.compareTo(amount) >= 0){
+            this.balance = this.balance.subtract(amount);
+            return true;
+        }
+
+        return false;
+    }
+
+    public void deposit(BigDecimal amount){
+        balance = balance.add(amount);
     }
 }

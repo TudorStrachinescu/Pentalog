@@ -22,14 +22,9 @@ import static com.tudor.staticVariables.AccountCurrency.getCurrency;
 public final class AccountData {
 
     private final Logger logger = LogManager.getLogger(AccountData.class.getName());
-    private static final AccountData accountsData = new AccountData();
     private List<Account> accountList = new ArrayList<>();
 
-    public static AccountData getInstance() {
-        return accountsData;
-    }
-
-    private AccountData() {
+    public AccountData() {
         try {
             loadAccountData(FileSystems.getDefault().getPath(FilePaths.ACCOUNT_FILE_PATH));
         } catch (LoadFileException e){
@@ -57,7 +52,7 @@ public final class AccountData {
                     logger.debug("Line " + index + ": " + e.getMessage());
                 }
                 if(newAccount.isPresent()){
-                    if(!checkAccount(newAccount.get())) {
+                    if(!checkAccount(this.getAccountList(), newAccount.get())) {
                         this.accountList.add(newAccount.get());
                     }
                 }
@@ -81,40 +76,39 @@ public final class AccountData {
         if(data.length == 4){
             String accountNumber = data[0].toUpperCase();
             if(!isValidAccountFormat(accountNumber)){
-                throw new LoadAccountException("Invalid account number");
+                throw new LoadAccountException("INVALID account number");
             }
             String accountName = data[1];
             AccountCurrency accCurr = getCurrency(data[3]);
 
-            if(accCurr != AccountCurrency.Invalid && isValidAccountFormat(accountNumber)) {
+            if(accCurr != AccountCurrency.INVALID && isValidAccountFormat(accountNumber)) {
 
                 double amount = 0d;
                 try {
                     amount = Double.parseDouble(data[2]);
                 } catch (NumberFormatException e) {
-                    throw new LoadAccountException("Invalid balance");
+                    throw new LoadAccountException("INVALID balance");
                 }
                 BigDecimal balance = new BigDecimal(amount);
                 testAccount = Optional.of(new Account(accountNumber, accountName, balance, accCurr));
             } else {
-                throw new LoadAccountException("Invalid currency");
+                throw new LoadAccountException("INVALID currency");
             }
         }
 
         return testAccount;
     }
 
-    public boolean checkAccount(Account account){
-        if(this.accountList.size() > 0){
-            for(Account a : this.accountList){
-                if(a.equals(account)){
-                    return true;
-                }
+    public static boolean checkAccount(List<Account> accounts, Account account){
+        for(Account a : accounts){
+            if(a.equals(account)){
+                return true;
             }
         }
 
         return false;
     }
+
 
     public List<Account> getAccountList() {
         return accountList;

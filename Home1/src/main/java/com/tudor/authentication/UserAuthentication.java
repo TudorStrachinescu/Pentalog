@@ -1,19 +1,24 @@
 package com.tudor.authentication;
 
 import com.tudor.appMenu.RetrieveInfoFromConsole;
+import com.tudor.dataLoading.AccountData;
 import com.tudor.exceptions.UserLogException;
+import com.tudor.modelClasses.Account;
 import com.tudor.modelClasses.User;
 import com.tudor.dataLoading.UserData;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserAuthentication {
 
-    private UserData data = UserData.getInstance();
-    private User loggedUser = null;
+    private AuthenticatedUserData userData = AuthenticatedUserData.getInstance();
 
     public void logIn() throws UserLogException {
         RetrieveInfoFromConsole scan = new RetrieveInfoFromConsole();
 
-        if (loggedUser == null) {
+        if (userData.getLoggedUser() == null) {
+            UserData data = new UserData();
             System.out.println("Logging in");
             System.out.println("Name: ");
             String userName = scan.getStringFromConsole();
@@ -24,29 +29,44 @@ public class UserAuthentication {
 
             if (data.checkUser(user)) {
                 System.out.println("Welcome " + userName);
-                loggedUser = user;
+                userData.setLoggedUser(user);
+                userData.setUserAccounts(getUserAccounts());
             } else {
                 throw new UserLogException("Wrong username/password");
             }
         } else {
-            throw new UserLogException("Cannot log in.\nApp in use by " + loggedUser.getName());
+            throw new UserLogException("Cannot log in.\nApp in use by " + userData.getLoggedUser().getName());
         }
     }
 
     public boolean logOut(){
-        if(loggedUser == null) {
+        if(userData.getLoggedUser() == null) {
             return false;
         }
 
-        loggedUser = null;
+        userData.clearData();
         return true;
     }
 
+    private List<Account> getUserAccounts(){
+        AccountData data = new AccountData();
+        List<Account> accounts = new ArrayList<>();
+
+        for(Account a : data.getAccountList()){
+            if(a.getUserName().equals(userData.getLoggedUser().getName())){
+                accounts.add(a);
+            }
+        }
+
+        return accounts;
+    }
+
+
     public boolean noUserLogged() {
-        return(loggedUser == null);
+        return(userData.getLoggedUser() == null);
     }
 
     public User getLoggedUser() {
-        return loggedUser;
+        return userData.getLoggedUser();
     }
 }
