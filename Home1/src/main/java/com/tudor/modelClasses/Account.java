@@ -55,6 +55,10 @@ public class Account {
                 '}';
     }
 
+    public String toFile(){
+        return '\n' + accountNumber + '\t' + userName + '\t' + balance + '\t' + accountType;
+    }
+
     public boolean withdrawal(BigDecimal amount){
         if(this.balance.compareTo(amount) >= 0){
             this.balance = this.balance.subtract(amount);

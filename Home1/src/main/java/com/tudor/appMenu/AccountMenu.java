@@ -55,8 +55,9 @@ class AccountMenu {
                     System.out.println("Invalid option!");
                     break;
             }
-
-            printMenu();
+            if(run) {
+                printMenu();
+            }
         }
     }
 
