@@ -62,7 +62,7 @@ class AccountMenu {
     }
 
     private void printMenu(){
-        System.out.println("Account Menu:");
+        System.out.println("Account menu:");
         System.out.println("\t1. Create account");
         System.out.println("\t2. Inspect account");
         System.out.println("\t3. Transfer between own accounts");
