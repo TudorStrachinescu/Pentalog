@@ -19,10 +19,18 @@ import java.util.List;
 import java.util.Optional;
 import static com.tudor.staticVariables.AccountCurrency.getCurrency;
 
+/**
+ *
+ */
+
 public final class AccountData {
 
     private final Logger logger = LogManager.getLogger(AccountData.class.getName());
     private List<Account> accountList = new ArrayList<>();
+
+    /**
+     *
+     */
 
     public AccountData() {
         try {
@@ -31,6 +39,12 @@ public final class AccountData {
             logger.debug(e.getMessage());
         }
     }
+
+    /**
+     *
+     * @param path
+     * @throws LoadFileException
+     */
 
     private void loadAccountData (Path path) throws LoadFileException {
         String fileName = path.getFileName().toString();
@@ -67,6 +81,13 @@ public final class AccountData {
         }
     }
 
+    /**
+     *
+     * @param line
+     * @return
+     * @throws LoadAccountException
+     */
+
     private Optional<Account> getAccountIfValid(String line) throws LoadAccountException {
         Optional<Account> testAccount = Optional.empty();
         line = line.replaceAll("\\s+", " ");
@@ -83,7 +104,7 @@ public final class AccountData {
 
             if(accCurr != AccountCurrency.INVALID && isValidAccountFormat(accountNumber)) {
 
-                double amount = 0d;
+                double amount;
                 try {
                     amount = Double.parseDouble(data[2]);
                 } catch (NumberFormatException e) {
@@ -99,6 +120,13 @@ public final class AccountData {
         return testAccount;
     }
 
+    /**
+     *
+     * @param accounts
+     * @param account
+     * @return
+     */
+
     public static boolean checkAccount(List<Account> accounts, Account account){
         for(Account a : accounts){
             if(a.equals(account)){
@@ -109,10 +137,20 @@ public final class AccountData {
         return false;
     }
 
+    /**
+     *
+     * @return
+     */
 
     public List<Account> getAccountList() {
         return accountList;
     }
+
+    /**
+     *
+     * @param accountNumber
+     * @return
+     */
 
     public boolean isValidAccountFormat(String accountNumber){
         return accountNumber.matches("^RO\\d{2}\\p{Upper}{4}\\d{16}$");

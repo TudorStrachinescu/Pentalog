@@ -1,4 +1,4 @@
-This is a application for account inspection and money transfer between own accounts.
+This is an application for account inspection and money transfer between own accounts.
 The application consists in 2 menus:
     - 'Main menu' with 4 possible options:
         - '1. Log in' - log in using valid credentials (available while no user is logged);

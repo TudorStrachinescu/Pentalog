@@ -5,13 +5,23 @@ import com.tudor.staticVariables.AccountCurrency;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+/**
+ *
+ */
+
 public class Account {
     private String accountNumber;
     private String userName;
     private BigDecimal balance;
     private AccountCurrency accountType;
 
-    public Account(){}
+    /**
+     *
+     * @param accountNumber
+     * @param userName
+     * @param balance
+     * @param accountType
+     */
 
     public Account(String accountNumber, String userName, BigDecimal balance, AccountCurrency accountType) {
         this.accountNumber = accountNumber;
@@ -19,6 +29,12 @@ public class Account {
         this.balance = balance;
         this.accountType = accountType;
     }
+
+    /**
+     *
+     * @param o
+     * @return
+     */
 
     @Override
     public boolean equals(Object o) {
@@ -29,22 +45,48 @@ public class Account {
                 userName.equals(account.getUserName());
     }
 
+    /**
+     *
+     * @return
+     */
+
     @Override
     public int hashCode() {
         return Objects.hash(userName)+ Objects.hash(accountNumber);
     }
 
+    /**
+     *
+     * @return
+     */
+
     private String getAccountNumber() {
         return accountNumber;
     }
+
+    /**
+     *
+     * @return
+     */
 
     public AccountCurrency getAccountType() {
         return accountType;
     }
 
+    /**
+     *
+     * @return
+     */
+
     public String getUserName() {
         return userName;
     }
+
+    /**
+     *
+     * @return
+     */
+
     @Override
     public String toString() {
         return "Account{" +
@@ -55,9 +97,20 @@ public class Account {
                 '}';
     }
 
+    /**
+     *
+     * @return
+     */
+
     public String toFile(){
         return '\n' + accountNumber + '\t' + userName + '\t' + balance + '\t' + accountType;
     }
+
+    /**
+     *
+     * @param amount
+     * @return
+     */
 
     public boolean withdrawal(BigDecimal amount){
         if(this.balance.compareTo(amount) >= 0){
@@ -67,6 +120,11 @@ public class Account {
 
         return false;
     }
+
+    /**
+     *
+     * @param amount
+     */
 
     public void deposit(BigDecimal amount){
         balance = balance.add(amount);

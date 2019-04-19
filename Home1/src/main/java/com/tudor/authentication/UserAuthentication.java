@@ -10,9 +10,18 @@ import com.tudor.dataLoading.UserData;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
+
 public class UserAuthentication {
 
     private AuthenticatedUserData userData = AuthenticatedUserData.getInstance();
+
+    /**
+     *
+     * @throws UserLogException
+     */
 
     public void logIn() throws UserLogException {
         RetrieveInfoFromConsole scan = new RetrieveInfoFromConsole();
@@ -39,6 +48,11 @@ public class UserAuthentication {
         }
     }
 
+    /**
+     *
+     * @return
+     */
+
     public boolean logOut(){
         if(userData.getLoggedUser() == null) {
             return false;
@@ -47,6 +61,11 @@ public class UserAuthentication {
         userData.clearData();
         return true;
     }
+
+    /**
+     *
+     * @return
+     */
 
     private List<Account> getUserAccounts(){
         AccountData data = new AccountData();
@@ -61,10 +80,19 @@ public class UserAuthentication {
         return accounts;
     }
 
+    /**
+     *
+     * @return
+     */
 
     public boolean noUserLogged() {
         return(userData.getLoggedUser() == null);
     }
+
+    /**
+     *
+     * @return
+     */
 
     public User getLoggedUser() {
         return userData.getLoggedUser();

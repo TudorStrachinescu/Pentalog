@@ -4,14 +4,27 @@ import com.tudor.accountManagement.AccountOperations;
 import com.tudor.authentication.AuthenticatedUserData;
 import com.tudor.modelClasses.User;
 
+/**
+ *
+ */
+
 class AccountMenu {
     private AccountOperations op = new AccountOperations();
     private AuthenticatedUserData userData = AuthenticatedUserData.getInstance();
     private User accessingUser;
 
+    /**
+     *
+     * @param accessingUser
+     */
+
     AccountMenu(User accessingUser) {
         this.accessingUser = accessingUser;
     }
+
+    /**
+     *
+     */
 
     void run(){
         boolean run = true;
@@ -60,6 +73,10 @@ class AccountMenu {
             }
         }
     }
+
+    /**
+     *
+     */
 
     private void printMenu(){
         System.out.println("Account menu:");

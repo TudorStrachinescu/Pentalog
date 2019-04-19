@@ -6,8 +6,19 @@ import com.tudor.staticVariables.AccountCurrency;
 import java.math.BigDecimal;
 import java.util.Scanner;
 
+/**
+ *
+ */
+
 public final class RetrieveInfoFromConsole {
     private Scanner s = new Scanner(System.in);
+
+    /**
+     *
+     * @param low
+     * @param high
+     * @return
+     */
 
     public int getIntInRangeFromConsole(int low, int high){
         int s = getIntFromConsole();
@@ -19,9 +30,19 @@ public final class RetrieveInfoFromConsole {
         return s;
     }
 
+    /**
+     *
+     * @return
+     */
+
     public BigDecimal getBalanceFromConsole(){
         return new BigDecimal(getIntFromConsole());
     }
+
+    /**
+     *
+     * @return
+     */
 
     public int getIntFromConsole(){
         Scanner s = new Scanner(System.in);
@@ -42,9 +63,19 @@ public final class RetrieveInfoFromConsole {
         return out;
     }
 
+    /**
+     *
+     * @return
+     */
+
     public String getStringFromConsole(){
         return s.nextLine();
     }
+
+    /**
+     *
+     * @return
+     */
 
     public AccountCurrency getCurrencyFromConsole(){
         String in;
@@ -58,6 +89,11 @@ public final class RetrieveInfoFromConsole {
             System.out.println("Please input currency('RON' or 'EURO')");
         }
     }
+
+    /**
+     *
+     * @return
+     */
 
     public String getAccountNumberFromConsole(){
         AccountData data = new AccountData();

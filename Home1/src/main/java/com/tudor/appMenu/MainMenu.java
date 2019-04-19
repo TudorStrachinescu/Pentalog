@@ -3,8 +3,16 @@ package com.tudor.appMenu;
 import com.tudor.authentication.UserAuthentication;
 import com.tudor.exceptions.UserLogException;
 
+/**
+ *
+ */
+
 public class MainMenu {
     private UserAuthentication accessingUser = new UserAuthentication();
+
+    /**
+     *
+     */
 
     public void runApp(){
         boolean run = true;

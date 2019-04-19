@@ -14,10 +14,18 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
+
 public final class UserData{
 
     private final Logger logger = LogManager.getLogger(AccountData.class.getName());
     private List<User> users = new ArrayList<>();
+
+    /**
+     *
+     */
 
     public UserData(){
         try {
@@ -26,6 +34,12 @@ public final class UserData{
             logger.debug(e.getMessage());
         }
     }
+
+    /**
+     *
+     * @param path
+     * @throws LoadFileException
+     */
 
     private void loadUsers (Path path) throws LoadFileException {
         String fileName = path.getFileName().toString();
@@ -62,6 +76,12 @@ public final class UserData{
             logger.info("User data loaded");
         }
     }
+
+    /**
+     *
+     * @param user
+     * @return
+     */
 
     public boolean checkUser(User user){
         if(this.users.size() > 0){

@@ -10,11 +10,22 @@ import com.tudor.staticVariables.AccountCurrency;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalLong;
+
+/**
+ *
+ */
 
 public class AccountOperations {
 
     private AuthenticatedUserData accountData = AuthenticatedUserData.getInstance();
     private RetrieveInfoFromConsole scan = new RetrieveInfoFromConsole();
+
+    /**
+     *
+     * @param accounts
+     */
 
     public void printAccounts(List<Account> accounts){
         int i = 1;
@@ -25,6 +36,12 @@ public class AccountOperations {
             i++;
         }
     }
+
+    /**
+     *
+     * @param user
+     * @return
+     */
 
     public boolean createAccount(User user){
         System.out.println("Please provide account number:");
@@ -42,6 +59,10 @@ public class AccountOperations {
         }
         return false;
     }
+
+    /**
+     *
+     */
 
     public void ownAccountsTransfer(){
         if(transferPossible()){
@@ -64,10 +85,10 @@ public class AccountOperations {
             System.out.println("Please choose account to transfer from");
             int indexFrom = scan.getIntInRangeFromConsole(1, usableAccounts.size());
 
-            Account accountFrom = new Account();
+            Optional<Account> accountFrom = Optional.empty();
             for(Account a : accountData.getUserAccounts()){
                 if(a.equals(usableAccounts.get(indexFrom - 1))){
-                    accountFrom = a;
+                    accountFrom = Optional.of(a);
                 }
             }
 
@@ -78,27 +99,34 @@ public class AccountOperations {
             System.out.println("Please choose account to transfer to");
             int indexTo = scan.getIntInRangeFromConsole(1, usableAccounts.size());
 
-            Account accountTo = new Account();
+            Optional<Account> accountTo = Optional.empty();
             for(Account a : accountData.getUserAccounts()){
                 if(a.equals(usableAccounts.get(indexTo - 1))){
-                    accountTo = a;
+                    accountTo = Optional.of(a);
                 }
             }
 
             System.out.println("Please choose the amount to transfer between accounts");
             int amount = scan.getIntFromConsole();
 
-            if(accountFrom.withdrawal(BigDecimal.valueOf(amount))){
-                accountTo.deposit(BigDecimal.valueOf(amount));
-                System.out.println("Transfer complete!");
-            } else {
-                System.out.println("Insufficient funds");
+            if(accountFrom.isPresent() && accountTo.isPresent()) {
+                if (accountFrom.get().withdrawal(BigDecimal.valueOf(amount))) {
+                    accountTo.get().deposit(BigDecimal.valueOf(amount));
+                    System.out.println("Transfer complete!");
+                } else {
+                    System.out.println("Insufficient funds");
+                }
             }
-
         } else {
             System.out.println("Transaction not possible, you need at least 2 accounts of same currency.");
         }
     }
+
+    /**
+     *
+     * @param c
+     * @return
+     */
 
     private List<Account> getUsableAccounts(AccountCurrency c){
         List<Account> usableAccounts = new ArrayList<>();
@@ -112,9 +140,20 @@ public class AccountOperations {
         return usableAccounts;
     }
 
+    /**
+     *
+     * @return
+     */
+
     private boolean transferPossible(){
         return accountsOfCurrecy(AccountCurrency.EURO) >= 2 || accountsOfCurrecy(AccountCurrency.RON) >= 2;
     }
+
+    /**
+     *
+     * @param c
+     * @return
+     */
 
     private int accountsOfCurrecy(AccountCurrency c){
         int index = 0;
@@ -126,6 +165,10 @@ public class AccountOperations {
 
         return index;
     }
+
+    /**
+     *
+     */
 
     private void currencyMenu(){
         if(accountsOfCurrecy(AccountCurrency.RON) >= 2) {
