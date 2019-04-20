@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Class used to load user data from a local resource file.
  */
 
 public final class UserData{
@@ -24,7 +24,7 @@ public final class UserData{
     private List<User> users = new ArrayList<>();
 
     /**
-     *
+     * Constructor without parameters that attempts to load the user data from file.
      */
 
     public UserData(){
@@ -36,9 +36,14 @@ public final class UserData{
     }
 
     /**
+     * Tries to load the user data from file.
+     * <p>
+     * If it fails it will log the cause.
      *
-     * @param path
-     * @throws LoadFileException
+     * @param path                  path to the resource file
+     * @throws LoadFileException    if file does not exist or invalid
+     *
+     * @see Logger
      */
 
     private void loadUsers (Path path) throws LoadFileException {
@@ -78,9 +83,11 @@ public final class UserData{
     }
 
     /**
+     * Checks if a user already exists within the currently stored list of users.
      *
-     * @param user
-     * @return
+     * @param user  the user to search for
+     * @return      <code>true</code> if the user already exists in users list and
+     *              <code>false</code> otherwise
      */
 
     public boolean checkUser(User user){

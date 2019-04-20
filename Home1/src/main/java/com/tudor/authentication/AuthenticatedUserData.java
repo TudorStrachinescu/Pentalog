@@ -1,6 +1,5 @@
 package com.tudor.authentication;
 
-import com.tudor.dataLoading.AccountData;
 import com.tudor.modelClasses.Account;
 import com.tudor.modelClasses.User;
 import com.tudor.staticVariables.FilePaths;
@@ -11,7 +10,7 @@ import java.io.*;
 import java.util.List;
 
 /**
- *
+ * A class containing authenticated user data.
  */
 
 public class AuthenticatedUserData {
@@ -22,8 +21,9 @@ public class AuthenticatedUserData {
     private List<Account> userAccounts;
 
     /**
+     * Returns the common instance of the AuthenticatedUserData class.
      *
-     * @return
+     * @return common user data
      */
 
     public static AuthenticatedUserData getInstance() {
@@ -31,15 +31,16 @@ public class AuthenticatedUserData {
     }
 
     /**
-     *
+     * Overwritten no parameters constructor so that no other instance of this class may exist.
      */
 
     private AuthenticatedUserData() {
     }
 
     /**
+     * Method to set the user currently logged into the application.
      *
-     * @param loggedUser
+     * @param loggedUser    user that has successfully logged in
      */
 
     void setLoggedUser(User loggedUser) {
@@ -47,8 +48,9 @@ public class AuthenticatedUserData {
     }
 
     /**
+     * Method to set the accounts only for the authenticated user.
      *
-     * @param userAccounts
+     * @param userAccounts  all accounts associated with the authenticated user
      */
 
     void setUserAccounts(List<Account> userAccounts) {
@@ -56,8 +58,9 @@ public class AuthenticatedUserData {
     }
 
     /**
+     * Gets the user currently authenticated
      *
-     * @return
+     * @return loggedUser
      */
 
     User getLoggedUser() {
@@ -65,8 +68,9 @@ public class AuthenticatedUserData {
     }
 
     /**
+     * Gets the accounts for the currently authenticated user.
      *
-     * @return
+     * @return  userAccounts
      */
 
     public List<Account> getUserAccounts() {
@@ -74,8 +78,11 @@ public class AuthenticatedUserData {
     }
 
     /**
+     * Adds a new account received as parameter to the account list.
+     * <p>
+     * Also writer the new account to the account resource file.
      *
-     * @param account
+     * @param account   the account to be added to the existing user accounts
      */
 
     public void add(Account account){
@@ -84,8 +91,9 @@ public class AuthenticatedUserData {
     }
 
     /**
+     * Adds an account to the resource file containing all accounts.
      *
-     * @param account
+     * @param account   the account to be added to the file
      */
 
     private void addAccountToFile(Account account){
@@ -97,7 +105,7 @@ public class AuthenticatedUserData {
     }
 
     /**
-     *
+     * Resets all instance data.
      */
 
     void clearData(){

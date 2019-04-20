@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Class used for user authentication operations.
  */
 
 public class UserAuthentication {
@@ -19,8 +19,12 @@ public class UserAuthentication {
     private AuthenticatedUserData userData = AuthenticatedUserData.getInstance();
 
     /**
+     * Prompts the user for name and password and saves the user as authenticated
+     * within AuthenticatedUserData.
      *
-     * @throws UserLogException
+     * @throws UserLogException     if user authentication fails
+     *
+     * @see AuthenticatedUserData
      */
 
     public void logIn() throws UserLogException {
@@ -49,8 +53,9 @@ public class UserAuthentication {
     }
 
     /**
+     * Clears authentication data if any.
      *
-     * @return
+     * @return  <code>true</code> if successful and <code>false</code> if no user is authenticated
      */
 
     public boolean logOut(){
@@ -63,8 +68,9 @@ public class UserAuthentication {
     }
 
     /**
+     * Filters all existing accounts only by the authenticated user name.
      *
-     * @return
+     * @return  the list of accounts for the authenticated user
      */
 
     private List<Account> getUserAccounts(){
@@ -81,8 +87,9 @@ public class UserAuthentication {
     }
 
     /**
+     * Checks if there is any user authenticated.
      *
-     * @return
+     * @return  <code>true</code> if no user is authenticated and <code>false</code> otherwise
      */
 
     public boolean noUserLogged() {
@@ -90,8 +97,9 @@ public class UserAuthentication {
     }
 
     /**
+     * Gets the user data of the authenticated user
      *
-     * @return
+     * @return  the authenticated user
      */
 
     public User getLoggedUser() {

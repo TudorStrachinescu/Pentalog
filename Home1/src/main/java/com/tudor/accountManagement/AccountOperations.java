@@ -11,10 +11,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalLong;
 
 /**
- *
+ * This class contains the methods for operations that can be made with an Account.
  */
 
 public class AccountOperations {
@@ -23,8 +22,9 @@ public class AccountOperations {
     private RetrieveInfoFromConsole scan = new RetrieveInfoFromConsole();
 
     /**
+     * Formats and prints to console the account data for the accounts within a list provided as parameter.
      *
-     * @param accounts
+     * @param accounts  list of Account objects
      */
 
     public void printAccounts(List<Account> accounts){
@@ -38,9 +38,17 @@ public class AccountOperations {
     }
 
     /**
+     * Prompts the user for valid Account creation information.
+     * The Account will be completed with the authenticated User data.
+     * <p>
+     * Information provided must be valid in order to proceed.
      *
-     * @param user
-     * @return
+     * @param user  the User object for which the account will be created
+     * @return      <code>true</code> if a new Account has been created and <code>false</code> otherwise
+     *
+     * @see Account
+     * @see User
+     * @see AuthenticatedUserData
      */
 
     public boolean createAccount(User user){
@@ -53,7 +61,7 @@ public class AccountOperations {
         AccountCurrency accountCurr = scan.getCurrencyFromConsole();
         Account acc = new Account(accountNumber, accountName, amount, accountCurr);
 
-        if(!AccountData.checkAccount(accountData.getUserAccounts(),acc)){
+        if(AccountData.checkAccount(accountData.getUserAccounts(), acc)){
             accountData.add(acc);
             return true;
         }
@@ -61,7 +69,11 @@ public class AccountOperations {
     }
 
     /**
-     *
+     * Transfers an amount of money between Accounts owned by the authenticated User.
+     * <p>
+     * Method checks first to see if there are any two accounts usable for transfer,
+     * and if possible the user will be prompted to specify the accounts by their
+     * displayed index, and to choose an amount.
      */
 
     public void ownAccountsTransfer(){
@@ -123,9 +135,13 @@ public class AccountOperations {
     }
 
     /**
+     * Filters authenticated user accounts based on their currency property
      *
-     * @param c
-     * @return
+     * @param c the currency to filter by
+     * @return  the list of Accounts with the given currency
+     *
+     * @see Account
+     * @see AccountCurrency
      */
 
     private List<Account> getUsableAccounts(AccountCurrency c){
@@ -141,8 +157,11 @@ public class AccountOperations {
     }
 
     /**
+     * Checks if a transfer is possible for the currently authenticated user.
+     * <p>
+     * A transfer is possible if there are at least 2 accounts with the same currency.
      *
-     * @return
+     * @return  <code>true</code> if transfer is possible and <code>false</code> otherwise
      */
 
     private boolean transferPossible(){
@@ -150,9 +169,10 @@ public class AccountOperations {
     }
 
     /**
+     * Gets the number of accounts of the same currency given as parameter
      *
-     * @param c
-     * @return
+     * @param c currency to filter by
+     * @return  the number of accounts of the given currency
      */
 
     private int accountsOfCurrecy(AccountCurrency c){
@@ -167,7 +187,7 @@ public class AccountOperations {
     }
 
     /**
-     *
+     * Displays the available currency usable for transfers between own accounts.
      */
 
     private void currencyMenu(){

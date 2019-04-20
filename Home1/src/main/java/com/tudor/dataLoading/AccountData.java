@@ -20,7 +20,9 @@ import java.util.Optional;
 import static com.tudor.staticVariables.AccountCurrency.getCurrency;
 
 /**
+ * Class used to load account information from a local resource file.
  *
+ * @see FilePaths
  */
 
 public final class AccountData {
@@ -29,7 +31,12 @@ public final class AccountData {
     private List<Account> accountList = new ArrayList<>();
 
     /**
+     * Constructor without parameters that starts a data loading process.
+     * <p>
+     * Data loading might fail for IO reasons such as file not existing or data within the file being invalid.
+     * Whichever the case, the event will be logged using a logger.
      *
+     * @see Logger
      */
 
     public AccountData() {
@@ -41,9 +48,12 @@ public final class AccountData {
     }
 
     /**
+     * Attempts to load data and in case of failure it logs the event that causes it.
      *
-     * @param path
-     * @throws LoadFileException
+     * @param path                  the path to which the file resource can be found
+     * @throws LoadFileException    if file is not found or invalid
+     *
+     * @see Logger
      */
 
     private void loadAccountData (Path path) throws LoadFileException {
@@ -66,7 +76,7 @@ public final class AccountData {
                     logger.debug("Line " + index + ": " + e.getMessage());
                 }
                 if(newAccount.isPresent()){
-                    if(!checkAccount(this.getAccountList(), newAccount.get())) {
+                    if(checkAccount(this.getAccountList(), newAccount.get())) {
                         this.accountList.add(newAccount.get());
                     }
                 }
@@ -82,10 +92,14 @@ public final class AccountData {
     }
 
     /**
+     * Takes a string input and checks if it has data suitable for an account object.
      *
-     * @param line
-     * @return
-     * @throws LoadAccountException
+     * @param line                      given string of data
+     * @return                          a Optional wrapping an Account object if compatible or empty otherwise
+     * @throws LoadAccountException     if invalid account data is found
+     *
+     * @see Optional
+     * @see Account
      */
 
     private Optional<Account> getAccountIfValid(String line) throws LoadAccountException {
@@ -121,25 +135,28 @@ public final class AccountData {
     }
 
     /**
+     * Checks if an account already exists within a list of accounts.
      *
-     * @param accounts
-     * @param account
-     * @return
+     * @param accounts  the list of accounts to search in
+     * @param account   the account to verify
+     * @return          <code>false</code> if the given account is already present within the given
+     *                  list or <code>true</code> otherwise
      */
 
     public static boolean checkAccount(List<Account> accounts, Account account){
         for(Account a : accounts){
             if(a.equals(account)){
-                return true;
+                return false;
             }
         }
 
-        return false;
+        return true;
     }
 
     /**
+     * Gets the list of stored accounts
      *
-     * @return
+     * @return  accountList
      */
 
     public List<Account> getAccountList() {
@@ -147,9 +164,11 @@ public final class AccountData {
     }
 
     /**
+     * Check if input string has a valid account format.
      *
-     * @param accountNumber
-     * @return
+     * @param accountNumber     string to be checked
+     * @return                  <code>true</code> if the provided string has a valid format and
+     *                          <code>false</code> otherwise
      */
 
     public boolean isValidAccountFormat(String accountNumber){

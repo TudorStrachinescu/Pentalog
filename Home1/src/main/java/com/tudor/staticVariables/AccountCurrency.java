@@ -1,7 +1,7 @@
 package com.tudor.staticVariables;
 
 /**
- *
+ * Enum object for currency representation.
  */
 
 public enum AccountCurrency {
@@ -10,9 +10,10 @@ public enum AccountCurrency {
     INVALID;
 
     /**
+     * Returns corresponding currency format based on given string.
      *
-     * @param currency
-     * @return
+     * @param currency  given string representation of the currency
+     * @return          AccountCurrency corresponding with the given string
      */
 
     public static AccountCurrency getCurrency(String currency){

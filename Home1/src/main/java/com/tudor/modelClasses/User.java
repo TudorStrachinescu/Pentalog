@@ -3,7 +3,7 @@ package com.tudor.modelClasses;
 import java.util.Objects;
 
 /**
- *
+ * Represents a user of a bank.
  */
 
 public class User {
@@ -11,9 +11,10 @@ public class User {
     private String password;
 
     /**
+     * Creates a new User with the given parameters.
      *
-     * @param name
-     * @param password
+     * @param name      the name for the User
+     * @param password  the password for the User
      */
 
     public User(String name, String password) {
@@ -22,10 +23,20 @@ public class User {
     }
 
     /**
+     * Gets the name for the User
      *
-     * @param o
-     * @return
+     * @return name
      */
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -35,32 +46,9 @@ public class User {
         return name.equals(user.name) && password.equals(user.password);
     }
 
-    /**
-     *
-     * @return
-     */
-
     @Override
     public int hashCode() {
         return Objects.hash(name);
     }
 
-    /**
-     *
-     * @return
-     */
-
-    public String getName() {
-        return name;
-    }
-
-    /**
-     *
-     * @return
-     */
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 }

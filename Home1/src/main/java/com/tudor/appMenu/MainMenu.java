@@ -4,14 +4,16 @@ import com.tudor.authentication.UserAuthentication;
 import com.tudor.exceptions.UserLogException;
 
 /**
- *
+ * Class used to create and display the main menu of the application.
  */
 
 public class MainMenu {
     private UserAuthentication accessingUser = new UserAuthentication();
 
     /**
-     *
+     * Displays and allows the user to choose options.
+     * <p>
+     * These options include logging in using username and password, logging out and inspecting accounts owned.
      */
 
     public void runApp(){
@@ -71,6 +73,11 @@ public class MainMenu {
             }
         }
     }
+
+    /**
+     * Prints the main menu to the console.
+     */
+
     private void printMenu(){
         System.out.println("Main menu:");
         if(accessingUser.noUserLogged()) {

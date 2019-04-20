@@ -3,7 +3,7 @@ package com.tudor.staticVariables;
 import java.io.File;
 
 /**
- *
+ * Class holding the local resource paths.
  */
 
 public final class FilePaths {

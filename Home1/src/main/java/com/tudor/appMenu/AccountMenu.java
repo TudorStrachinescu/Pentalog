@@ -5,7 +5,7 @@ import com.tudor.authentication.AuthenticatedUserData;
 import com.tudor.modelClasses.User;
 
 /**
- *
+ * Class used to create and display an account menu.
  */
 
 class AccountMenu {
@@ -14,8 +14,9 @@ class AccountMenu {
     private User accessingUser;
 
     /**
+     * Creates an AccountMenu object for the the user received as parameter.
      *
-     * @param accessingUser
+     * @param accessingUser the User object for which the menu will be created for
      */
 
     AccountMenu(User accessingUser) {
@@ -23,7 +24,12 @@ class AccountMenu {
     }
 
     /**
+     * Displays a menu and allows the user to make various account operations.
+     * <p>
+     * These operations include creating new accounts, inspecting currently stored accounts,
+     * and transferring money between accounts of the same currency.
      *
+     * @see AccountOperations
      */
 
     void run(){
@@ -75,7 +81,7 @@ class AccountMenu {
     }
 
     /**
-     *
+     * Prints the account menu options to console.
      */
 
     private void printMenu(){
