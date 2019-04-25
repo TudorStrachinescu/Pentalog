@@ -2,35 +2,58 @@ package com.tudor.modelClasses;
 
 import com.tudor.staticVariables.AccountCurrency;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 /**
  * Represents a persons bank account.
  */
+@Entity
+@Table(name = "account", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "account_number")
+})
 
 public class Account {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
+
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "user_id")
+    private User accountUser;
+
+    @Column(name = "account_number")
     private String accountNumber;
-    private String userName;
+
+    @Column(name = "balance")
     private BigDecimal balance;
+
+    @Column(name = "account_type")
     private AccountCurrency accountType;
 
-    /**
-     * Creates a new Account with the given parameters.
-     *
-     * @param accountNumber the account number
-     * @param userName      the name associated with the account
-     * @param balance       the amount of money available in the account
-     * @param accountType   the currency used with the account
-     */
+    @Column(name = "created_time")
+    private LocalDateTime created;
 
-    public Account(String accountNumber, String userName, BigDecimal balance, AccountCurrency accountType) {
+    @Column(name = "updated_time")
+    private LocalDateTime lastUpdated;
+
+    @OneToMany(mappedBy = "account")
+    private List<Transaction> transactions;
+
+    public Account(User accountUser, String accountNumber, AccountCurrency accountType, List<Transaction> transactions) {
+        this.accountUser = accountUser;
         this.accountNumber = accountNumber;
-        this.userName = userName;
-        this.balance = balance;
         this.accountType = accountType;
+        this.transactions = transactions;
+        created = LocalDateTime.now();
+        lastUpdated = LocalDateTime.now();
+        balance = BigDecimal.valueOf(0);
     }
-
 
     /**
      * Gets the account number or the Account
@@ -60,7 +83,7 @@ public class Account {
      */
 
     public String getUserName() {
-        return userName;
+        return accountUser.getName();
     }
 
 
@@ -71,7 +94,7 @@ public class Account {
      */
 
     public String toFile(){
-        return '\n' + accountNumber + '\t' + userName + '\t' + balance + '\t' + accountType;
+        return '\n' + accountNumber + '\t' + accountUser.getName() + '\t' + balance + '\t' + accountType;
     }
 
     /**
@@ -107,7 +130,7 @@ public class Account {
     public String toString() {
         return "Account{" +
                 "accountNumber='" + accountNumber + '\'' +
-                ", userName='" + userName + '\'' +
+                ", userName='" + accountUser.getName() + '\'' +
                 ", balance=" + balance +
                 ", accountType=" + accountType +
                 '}';
@@ -119,11 +142,11 @@ public class Account {
         if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
         return accountNumber.equals(account.getAccountNumber()) &&
-                userName.equals(account.getUserName());
+                accountUser.getName().equals(account.getUserName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userName)+ Objects.hash(accountNumber);
+        return Objects.hash(accountUser.getName())+ Objects.hash(accountNumber);
     }
 }

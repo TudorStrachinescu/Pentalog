@@ -59,12 +59,12 @@ public class AccountOperations {
         BigDecimal amount = scan.getBalanceFromConsole();
         System.out.println("Please input your currency('RON' or 'EURO')");
         AccountCurrency accountCurr = scan.getCurrencyFromConsole();
-        Account acc = new Account(accountNumber, accountName, amount, accountCurr);
-
-        if(AccountData.checkAccount(accountData.getUserAccounts(), acc)){
-            accountData.add(acc);
-            return true;
-        }
+//        Account acc = new Account(accountNumber, accountName, amount, accountCurr);
+//
+//        if(AccountData.checkAccount(accountData.getUserAccounts(), acc)){
+//            accountData.add(acc);
+//            return true;
+//        }
         return false;
     }
 

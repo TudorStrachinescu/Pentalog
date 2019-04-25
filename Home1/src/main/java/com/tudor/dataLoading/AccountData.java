@@ -104,32 +104,32 @@ public final class AccountData {
 
     private Optional<Account> getAccountIfValid(String line) throws LoadAccountException {
         Optional<Account> testAccount = Optional.empty();
-        line = line.replaceAll("\\s+", " ");
-
-        String[] data = line.split(" ");
-
-        if(data.length == 4){
-            String accountNumber = data[0].toUpperCase();
-            if(!isValidAccountFormat(accountNumber)){
-                throw new LoadAccountException("INVALID account number");
-            }
-            String accountName = data[1];
-            AccountCurrency accCurr = getCurrency(data[3]);
-
-            if(accCurr != AccountCurrency.INVALID && isValidAccountFormat(accountNumber)) {
-
-                double amount;
-                try {
-                    amount = Double.parseDouble(data[2]);
-                } catch (NumberFormatException e) {
-                    throw new LoadAccountException("INVALID balance");
-                }
-                BigDecimal balance = new BigDecimal(amount);
-                testAccount = Optional.of(new Account(accountNumber, accountName, balance, accCurr));
-            } else {
-                throw new LoadAccountException("INVALID currency");
-            }
-        }
+//        line = line.replaceAll("\\s+", " ");
+//
+//        String[] data = line.split(" ");
+//
+//        if(data.length == 4){
+//            String accountNumber = data[0].toUpperCase();
+//            if(!isValidAccountFormat(accountNumber)){
+//                throw new LoadAccountException("INVALID account number");
+//            }
+//            String accountName = data[1];
+//            AccountCurrency accCurr = getCurrency(data[3]);
+//
+//            if(accCurr != AccountCurrency.INVALID && isValidAccountFormat(accountNumber)) {
+//
+//                double amount;
+//                try {
+//                    amount = Double.parseDouble(data[2]);
+//                } catch (NumberFormatException e) {
+//                    throw new LoadAccountException("INVALID balance");
+//                }
+//                BigDecimal balance = new BigDecimal(amount);
+//                testAccount = Optional.of(new Account(accountNumber, accountName, balance, accCurr));
+//            } else {
+//                throw new LoadAccountException("INVALID currency");
+//            }
+//        }
 
         return testAccount;
     }
