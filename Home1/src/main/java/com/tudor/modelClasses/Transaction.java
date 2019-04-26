@@ -29,4 +29,12 @@ public class Transaction {
             CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "account_id")
     private Account account;
+
+    public Transaction(String toAccount, BigDecimal balance, String details, Account account) {
+        this.toAccount = toAccount;
+        this.balance = balance;
+        this.details = details;
+        this.account = account;
+        createdTime = LocalDateTime.now();
+    }
 }

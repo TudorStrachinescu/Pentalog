@@ -26,6 +26,12 @@ public class Notification {
     @Column(name = "sent_time")
     private LocalDateTime sentTime;
 
+    public Notification(User notificationUser, String details) {
+        this.notificationUser = notificationUser;
+        this.details = details;
+        createdTime = LocalDateTime.now();
+    }
+
     public void setSentTime() {
         sentTime = LocalDateTime.now();
     }

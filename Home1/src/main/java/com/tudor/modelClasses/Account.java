@@ -5,6 +5,7 @@ import com.tudor.staticVariables.AccountCurrency;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -41,16 +42,15 @@ public class Account {
     private LocalDateTime lastUpdated;
 
     @OneToMany(mappedBy = "account")
-    private List<Transaction> transactions;
+    private List<Transaction> transactions = new LinkedList<>();
 
-    public Account(User accountUser, String accountNumber, AccountCurrency accountType, List<Transaction> transactions) {
+    public Account(User accountUser, String accountNumber, BigDecimal balance, AccountCurrency accountType) {
         this.accountUser = accountUser;
         this.accountNumber = accountNumber;
+        this.balance = balance;
         this.accountType = accountType;
-        this.transactions = transactions;
         created = LocalDateTime.now();
         lastUpdated = LocalDateTime.now();
-        balance = BigDecimal.valueOf(0);
     }
 
     private String getAccountNumber() {
