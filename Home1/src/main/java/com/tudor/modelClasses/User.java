@@ -26,13 +26,16 @@ public class User {
     @Column(name = "updated_time")
     private LocalDateTime lastUpdated;
 
-    @OneToMany(mappedBy = "notificationUser")
+    @OneToMany(mappedBy = "notificationUser", cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
     List<Notification> notifications;
 
-    @OneToMany(mappedBy = "accountUser")
+    @OneToMany(mappedBy = "accountUser", cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
     List<Account> accounts;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
     Person person;
 
     public User() {

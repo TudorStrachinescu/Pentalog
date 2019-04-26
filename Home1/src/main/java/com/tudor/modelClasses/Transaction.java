@@ -25,9 +25,8 @@ public class Transaction {
     @Column(name = "created_time")
     private LocalDateTime createdTime;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "account_id")
+    @ManyToOne
+    @JoinColumn(name = "account_id", foreignKey = @ForeignKey(name = "account_transaction_fk"))
     private Account account;
 
     public Transaction() {

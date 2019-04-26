@@ -13,7 +13,7 @@ public class Person {
     private Integer id;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "user_person_fk"))
     private User user;
 
     @Column(name = "address")

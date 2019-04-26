@@ -19,9 +19,8 @@ public class Account {
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "user_id")
+    @ManyToOne
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "user_account_fk"))
     private User accountUser;
 
     @Column(name = "account_number", unique = true, nullable = false)
@@ -39,7 +38,7 @@ public class Account {
     @Column(name = "updated_time")
     private LocalDateTime lastUpdated;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Transaction> transactions = new LinkedList<>();
 
     public Account() {
