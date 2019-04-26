@@ -12,7 +12,7 @@ public class Person {
     @Column(name = "id")
     private Integer id;
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -24,6 +24,9 @@ public class Person {
 
     @Column(name = "last_name")
     private String lastName;
+
+    public Person() {
+    }
 
     public Person(User user, String address, String firstName, String lastName) {
         this.user = user;

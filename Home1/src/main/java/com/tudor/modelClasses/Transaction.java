@@ -30,6 +30,9 @@ public class Transaction {
     @JoinColumn(name = "account_id")
     private Account account;
 
+    public Transaction() {
+    }
+
     public Transaction(String toAccount, BigDecimal balance, String details, Account account) {
         this.toAccount = toAccount;
         this.balance = balance;

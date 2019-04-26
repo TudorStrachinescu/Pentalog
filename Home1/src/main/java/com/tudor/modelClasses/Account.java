@@ -11,9 +11,7 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name = "account", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "account_number")
-})
+@Table(name = "account")
 
 public class Account {
     @Id
@@ -26,13 +24,13 @@ public class Account {
     @JoinColumn(name = "user_id")
     private User accountUser;
 
-    @Column(name = "account_number")
+    @Column(name = "account_number", unique = true, nullable = false)
     private String accountNumber;
 
     @Column(name = "balance")
     private BigDecimal balance;
 
-    @Column(name = "account_type")
+    @Column(name = "account_type", nullable = false)
     private AccountCurrency accountType;
 
     @Column(name = "created_time")
@@ -43,6 +41,9 @@ public class Account {
 
     @OneToMany(mappedBy = "account")
     private List<Transaction> transactions = new LinkedList<>();
+
+    public Account() {
+    }
 
     public Account(User accountUser, String accountNumber, BigDecimal balance, AccountCurrency accountType) {
         this.accountUser = accountUser;

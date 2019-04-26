@@ -25,6 +25,7 @@ public class Main {
                 .addAnnotatedClass(Transaction.class)
                 .buildSessionFactory();
 
+/*
         User u1 = new User("tudor", "password");
         User u2 = new User("alina", "buhuhuu");
 
@@ -50,11 +51,15 @@ public class Main {
         Transaction t2 = new Transaction("ro90abcd1237890123456345", BigDecimal.valueOf(321), "account details 1", a12);
         Transaction t3 = new Transaction("ro23dsae1234567890123456", BigDecimal.valueOf(15), "account details 1", a13);
         Transaction t4 = new Transaction("ro45zzds1234567890123456", BigDecimal.valueOf(321), "account details 1", a21);
+*/
 
         Session session = factory.openSession();
         session.beginTransaction();
 
-        session.save(u1);
+        User u1 = session.get(User.class, 1);
+        session.delete(u1);
+
+/*        session.save(u1);
         session.save(u2);
 
         session.save(p1);
@@ -76,10 +81,11 @@ public class Main {
         session.save(t1);
         session.save(t2);
         session.save(t3);
-        session.save(t4);
+        session.save(t4);*/
 
         session.getTransaction().commit();
-        session.close();
+
+        System.out.println(session.isOpen());
 
         factory.close();
 

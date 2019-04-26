@@ -26,6 +26,9 @@ public class Notification {
     @Column(name = "sent_time")
     private LocalDateTime sentTime;
 
+    public Notification() {
+    }
+
     public Notification(User notificationUser, String details) {
         this.notificationUser = notificationUser;
         this.details = details;

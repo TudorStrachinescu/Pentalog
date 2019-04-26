@@ -6,9 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "user", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "username")
-})
+@Table(name = "user")
 
 public class User {
     @Id
@@ -16,10 +14,10 @@ public class User {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true, nullable = false)
     private String name;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "created_time")
@@ -33,6 +31,12 @@ public class User {
 
     @OneToMany(mappedBy = "accountUser")
     List<Account> accounts;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    Person person;
+
+    public User() {
+    }
 
     public User(String name, String password) {
         this.name = name;
