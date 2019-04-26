@@ -5,10 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Represents a user of a bank.
- */
-
 @Entity
 @Table(name = "user", uniqueConstraints = {
         @UniqueConstraint(columnNames = "username")
@@ -38,25 +34,12 @@ public class User {
     @OneToMany(mappedBy = "accountUser")
     List<Account> accounts;
 
-    /**
-     * Creates a new User with the given parameters.
-     *
-     * @param name      the name for the User
-     * @param password  the password for the User
-     */
-
     public User(String name, String password) {
         this.name = name;
         this.password = password;
         created = LocalDateTime.now();
         lastUpdated = LocalDateTime.now();
     }
-
-    /**
-     * Gets the name for the User
-     *
-     * @return name
-     */
 
     public String getName() {
         return name;
