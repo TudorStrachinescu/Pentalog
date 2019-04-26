@@ -1,13 +1,17 @@
 package com.tudor;
 
 import com.tudor.appMenu.MainMenu;
+import com.tudor.dataLoading.AccountData;
 import com.tudor.modelClasses.*;
 import com.tudor.staticVariables.AccountCurrency;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import java.math.BigDecimal;
+
+import static com.tudor.staticVariables.FactorySession.closeFactory;
+import static com.tudor.staticVariables.FactorySession.getSession;
 
 /**
  * Main class containing the static main method that starts the application.
@@ -16,14 +20,6 @@ import java.math.BigDecimal;
 public class Main {
 
     public static void main(String[] args) {
-
-        SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
-                .addAnnotatedClass(User.class)
-                .addAnnotatedClass(Person.class)
-                .addAnnotatedClass(Notification.class)
-                .addAnnotatedClass(Account.class)
-                .addAnnotatedClass(Transaction.class)
-                .buildSessionFactory();
 
         User u1 = new User("tudor", "password");
         User u2 = new User("alina", "buhuhuu");
@@ -51,38 +47,41 @@ public class Main {
         Transaction t3 = new Transaction("ro23dsae1234567890123456", BigDecimal.valueOf(15), "account details 1", a13);
         Transaction t4 = new Transaction("ro45zzds1234567890123456", BigDecimal.valueOf(321), "account details 1", a21);
 
-        Session session = factory.openSession();
-        session.beginTransaction();
+        Session session = getSession();
 
-        session.save(u1);
-        session.save(u2);
+        try {
+            session.beginTransaction();
 
-        session.save(p1);
-        session.save(p2);
+            session.save(u1);
+            session.save(u2);
 
-        session.save(n11);
-        session.save(n12);
-        session.save(n13);
-        session.save(n21);
-        session.save(n22);
+            session.save(p1);
+            session.save(p2);
 
-        session.save(a11);
-        session.save(a12);
-        session.save(a13);
-        session.save(a14);
-        session.save(a21);
-        session.save(a22);
+            session.save(n11);
+            session.save(n12);
+            session.save(n13);
+            session.save(n21);
+            session.save(n22);
 
-        session.save(t1);
-        session.save(t2);
-        session.save(t3);
-        session.save(t4);
+            session.save(a11);
+            session.save(a12);
+            session.save(a13);
+            session.save(a14);
+            session.save(a21);
+            session.save(a22);
 
-        session.getTransaction().commit();
+            session.save(t1);
+            session.save(t2);
+            session.save(t3);
+            session.save(t4);
 
-        System.out.println(session.isOpen());
-
-        factory.close();
+            session.getTransaction().commit();
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            closeFactory();
+        }
 
         MainMenu menu = new MainMenu();
         menu.runApp();
