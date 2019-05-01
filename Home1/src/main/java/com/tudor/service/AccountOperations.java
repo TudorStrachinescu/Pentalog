@@ -1,10 +1,7 @@
-package com.tudor.accountManagement;
+package com.tudor.service;
 
-import com.tudor.appMenu.RetrieveInfoFromConsole;
-import com.tudor.authentication.AuthenticatedUserData;
-import com.tudor.dataLoading.AccountData;
-import com.tudor.modelClasses.Account;
-import com.tudor.modelClasses.User;
+import com.tudor.model.Account;
+import com.tudor.model.User;
 import com.tudor.staticVariables.AccountCurrency;
 
 import java.math.BigDecimal;
@@ -43,7 +40,6 @@ public class AccountOperations {
      * <p>
      * Information provided must be valid in order to proceed.
      *
-     * @param user  the User object for which the account will be created
      * @return      <code>true</code> if a new Account has been created and <code>false</code> otherwise
      *
      * @see Account
@@ -51,21 +47,14 @@ public class AccountOperations {
      * @see AuthenticatedUserData
      */
 
-    public boolean createAccount(User user){
+    public Account createAccount(){
         System.out.println("Please provide account number:");
         String accountNumber = scan.getAccountNumberFromConsole();
-        String accountName = user.getName();
         System.out.println("Please input balance amount:");
         BigDecimal amount = scan.getBalanceFromConsole();
         System.out.println("Please input your currency('RON' or 'EURO')");
         AccountCurrency accountCurr = scan.getCurrencyFromConsole();
-//        Account acc = new Account(accountNumber, accountName, amount, accountCurr);
-//
-//        if(AccountData.checkAccount(accountData.getUserAccounts(), acc)){
-//            accountData.add(acc);
-//            return true;
-//        }
-        return false;
+        return new Account(accountData.getLoggedUser(), accountNumber, amount, accountCurr);
     }
 
     /**

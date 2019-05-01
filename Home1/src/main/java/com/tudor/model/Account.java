@@ -1,8 +1,9 @@
-package com.tudor.modelClasses;
+package com.tudor.model;
 
 import com.tudor.staticVariables.AccountCurrency;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
@@ -13,7 +14,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "account")
 
-public class Account {
+public class Account implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

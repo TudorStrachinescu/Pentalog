@@ -1,6 +1,6 @@
 package com.tudor.staticVariables;
 
-import com.tudor.modelClasses.*;
+import com.tudor.model.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

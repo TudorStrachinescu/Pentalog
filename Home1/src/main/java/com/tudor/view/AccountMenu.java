@@ -1,8 +1,9 @@
-package com.tudor.appMenu;
+package com.tudor.view;
 
-import com.tudor.accountManagement.AccountOperations;
-import com.tudor.authentication.AuthenticatedUserData;
-import com.tudor.modelClasses.User;
+import com.tudor.service.AccountOperations;
+import com.tudor.service.RetrieveInfoFromConsole;
+import com.tudor.service.AuthenticatedUserData;
+import com.tudor.model.User;
 
 /**
  * Class used to create and display an account menu.
@@ -46,7 +47,7 @@ class AccountMenu {
 
             switch(choice){
                 case 1:
-                    if(op.createAccount(accessingUser)) {
+                    if(userData.add(op.createAccount())) {
                         System.out.println("Account created");
                     } else {
                         System.out.println("Account already exists for " + accessingUser.getName());

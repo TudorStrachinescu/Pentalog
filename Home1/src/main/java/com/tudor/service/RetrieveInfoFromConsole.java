@@ -1,6 +1,5 @@
-package com.tudor.appMenu;
+package com.tudor.service;
 
-import com.tudor.dataLoading.AccountData;
 import com.tudor.staticVariables.AccountCurrency;
 
 import java.math.BigDecimal;
@@ -28,7 +27,7 @@ public final class RetrieveInfoFromConsole {
      *              <code>high</code>
      */
 
-    public int getIntInRangeFromConsole(int low, int high){
+    int getIntInRangeFromConsole(int low, int high){
         int s = getIntFromConsole();
         while(s < low || s > high){
             System.out.println("Please enter a number between " + low + " and " + high);
@@ -46,7 +45,7 @@ public final class RetrieveInfoFromConsole {
      * @see BigDecimal
      */
 
-    public BigDecimal getBalanceFromConsole(){
+    BigDecimal getBalanceFromConsole(){
         return new BigDecimal(getIntFromConsole());
     }
 
@@ -101,7 +100,7 @@ public final class RetrieveInfoFromConsole {
      * @see AccountCurrency
      */
 
-    public AccountCurrency getCurrencyFromConsole(){
+    AccountCurrency getCurrencyFromConsole(){
         String in;
 
         while(true){
@@ -124,16 +123,20 @@ public final class RetrieveInfoFromConsole {
      * @return a string with a valid account format
      */
 
-    public String getAccountNumberFromConsole(){
-        AccountData data = new AccountData();
+    String getAccountNumberFromConsole(){
         String in;
 
         while(true){
             in = s.nextLine().toUpperCase();
-            if(data.isValidAccountFormat(in)){
+            if(isValidAccountFormat(in)){
                 return in;
             }
             System.out.println("Please input a valid accountNumber (RO12ABCD1234567890123456)");
         }
+    }
+
+
+    private boolean isValidAccountFormat(String accountNumber){
+        return accountNumber.matches("^RO\\d{2}\\p{Upper}{4}\\d{16}$");
     }
 }

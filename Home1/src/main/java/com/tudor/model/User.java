@@ -1,6 +1,7 @@
-package com.tudor.modelClasses;
+package com.tudor.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -8,7 +9,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "user")
 
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -54,9 +55,17 @@ public class User {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", created=" + created +
+                ", lastUpdated=" + lastUpdated +
+                ", notifications=" + notifications +
+                ", accounts=" + accounts +
+                ", person=" + person +
+                '}';
     }
-
 
     @Override
     public boolean equals(Object o) {

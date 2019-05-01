@@ -1,6 +1,8 @@
-package com.tudor.appMenu;
+package com.tudor.view;
 
-import com.tudor.authentication.UserAuthentication;
+import com.tudor.service.AuthenticatedUserData;
+import com.tudor.service.RetrieveInfoFromConsole;
+import com.tudor.repository.UserAuthentication;
 import com.tudor.exceptions.UserLogException;
 
 /**
@@ -9,6 +11,7 @@ import com.tudor.exceptions.UserLogException;
 
 public class MainMenu {
     private UserAuthentication accessingUser = new UserAuthentication();
+    private AuthenticatedUserData userData = AuthenticatedUserData.getInstance();
 
     /**
      * Displays and allows the user to choose options.
@@ -46,15 +49,15 @@ public class MainMenu {
 
                     break;
                 case 3:
-                    if(!accessingUser.noUserLogged()) {
-                        AccountMenu accountDetails = new AccountMenu(accessingUser.getLoggedUser());
+                    if(!userData.noUserLogged()) {
+                        AccountMenu accountDetails = new AccountMenu(userData.getLoggedUser());
                         accountDetails.run();
                     } else {
                         System.out.println("Invalid option!");
                     }
                     break;
                 case 4:
-                    if(accessingUser.noUserLogged()){
+                    if(userData.noUserLogged()){
                         run = false;
                     } else {
                         System.out.println("You must log out before closing app");
@@ -80,14 +83,14 @@ public class MainMenu {
 
     private void printMenu(){
         System.out.println("Main menu:");
-        if(accessingUser.noUserLogged()) {
+        if(userData.noUserLogged()) {
             System.out.println("\t1. Log in");
 
         } else {
             System.out.println("\t2. Log out");
             System.out.println("\t3. Account menu");
         }
-        if(accessingUser.noUserLogged()) {
+        if(userData.noUserLogged()) {
             System.out.println("\t4. Exit");
         }
     }

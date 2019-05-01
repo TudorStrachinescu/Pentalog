@@ -1,12 +1,8 @@
-package com.tudor.authentication;
+package com.tudor.service;
 
-import com.tudor.modelClasses.Account;
-import com.tudor.modelClasses.User;
-import com.tudor.staticVariables.FilePaths;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.tudor.model.Account;
+import com.tudor.model.User;
 
-import java.io.*;
 import java.util.List;
 
 /**
@@ -14,7 +10,6 @@ import java.util.List;
  */
 
 public class AuthenticatedUserData {
-    private final Logger logger = LogManager.getLogger(AuthenticatedUserData.class.getName());
     private static AuthenticatedUserData ourInstance = new AuthenticatedUserData();
 
     private User loggedUser;
@@ -43,7 +38,7 @@ public class AuthenticatedUserData {
      * @param loggedUser    user that has successfully logged in
      */
 
-    void setLoggedUser(User loggedUser) {
+    public void setLoggedUser(User loggedUser) {
         this.loggedUser = loggedUser;
     }
 
@@ -53,7 +48,7 @@ public class AuthenticatedUserData {
      * @param userAccounts  all accounts associated with the authenticated user
      */
 
-    void setUserAccounts(List<Account> userAccounts) {
+    public void setUserAccounts(List<Account> userAccounts) {
         this.userAccounts = userAccounts;
     }
 
@@ -63,7 +58,7 @@ public class AuthenticatedUserData {
      * @return loggedUser
      */
 
-    User getLoggedUser() {
+    public User getLoggedUser() {
         return loggedUser;
     }
 
@@ -85,31 +80,27 @@ public class AuthenticatedUserData {
      * @param account   the account to be added to the existing user accounts
      */
 
-    public void add(Account account){
+    public boolean add(Account account){
         userAccounts.add(account);
-        addAccountToFile(account);
-    }
-
-    /**
-     * Adds an account to the resource file containing all accounts.
-     *
-     * @param account   the account to be added to the file
-     */
-
-    private void addAccountToFile(Account account){
-        try (PrintWriter accountFile = new PrintWriter(new FileWriter(FilePaths.ACCOUNT_FILE_PATH, true))){
-            accountFile.append(account.toFile());
-        } catch (IOException e){
-            logger.debug(e.getMessage());
-        }
+        return true;
     }
 
     /**
      * Resets all instance data.
      */
 
-    void clearData(){
+    public void clearData(){
         loggedUser = null;
         userAccounts.clear();
+    }
+
+    /**
+     * Checks if there is any user authenticated.
+     *
+     * @return  <code>true</code> if no user is authenticated and <code>false</code> otherwise
+     */
+
+    public boolean noUserLogged() {
+        return(loggedUser == null);
     }
 }

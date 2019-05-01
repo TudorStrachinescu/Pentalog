@@ -1,12 +1,17 @@
-package com.tudor.authentication;
+package com.tudor.repository;
 
-import com.tudor.appMenu.RetrieveInfoFromConsole;
-import com.tudor.dataLoading.AccountData;
+import com.tudor.service.AuthenticatedUserData;
+import com.tudor.service.RetrieveInfoFromConsole;
 import com.tudor.exceptions.UserLogException;
-import com.tudor.modelClasses.Account;
-import com.tudor.modelClasses.User;
-import com.tudor.dataLoading.UserData;
+import com.tudor.model.Account;
+import com.tudor.model.User;
+import com.tudor.staticVariables.FactorySession;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +20,7 @@ import java.util.List;
  */
 
 public class UserAuthentication {
+    private final Logger logger = LogManager.getLogger(UserAuthentication.class.getName());
 
     private AuthenticatedUserData userData = AuthenticatedUserData.getInstance();
 
@@ -74,35 +80,18 @@ public class UserAuthentication {
      */
 
     private List<Account> getUserAccounts(){
-        AccountData data = new AccountData();
-        List<Account> accounts = new ArrayList<>();
+        List<Account> list = new ArrayList<>();
 
-        for(Account a : data.getAccountList()){
-            if(a.getUserName().equals(userData.getLoggedUser().getName())){
-                accounts.add(a);
-            }
+        try (Session session = FactorySession.getSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("select a from Account a where a.accountUser.name = :name");
+            query.setParameter("name", userData.getLoggedUser().getName());
+
+            list = query.getResultList();
+        } catch (HibernateException e) {
+            logger.error("Error retrieving account data from server");
         }
 
-        return accounts;
-    }
-
-    /**
-     * Checks if there is any user authenticated.
-     *
-     * @return  <code>true</code> if no user is authenticated and <code>false</code> otherwise
-     */
-
-    public boolean noUserLogged() {
-        return(userData.getLoggedUser() == null);
-    }
-
-    /**
-     * Gets the user data of the authenticated user
-     *
-     * @return  the authenticated user
-     */
-
-    public User getLoggedUser() {
-        return userData.getLoggedUser();
+        return list;
     }
 }
