@@ -10,20 +10,16 @@ import org.hibernate.Session;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Class used to load user data from a local resource file.
  */
 
-final class UserData{
-
+public final class UserData{
     private final Logger logger = LogManager.getLogger(UserData.class.getName());
 
-    /**
-     * Constructor without parameters that attempts to load the user data from file.
-     */
-
-    UserData(){}
+    public UserData(){}
 
     /**
      * Checks if a user already exists within the currently stored list of users.
@@ -33,7 +29,7 @@ final class UserData{
      *              <code>false</code> otherwise
      */
 
-    boolean checkUser(User user){
+    public Optional<User> checkUser(User user){
         List<User> users = new ArrayList<>();
 
         try (Session session = FactorySession.getSession()) {
@@ -50,11 +46,12 @@ final class UserData{
         if(users.size() > 0){
             for(User u : users){
                 if(u.equals(user)){
-                    return true;
+                    return Optional.of(u);
                 }
             }
         }
 
-        return false;
+        return Optional.empty();
     }
+
 }

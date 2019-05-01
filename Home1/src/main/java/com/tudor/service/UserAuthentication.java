@@ -1,28 +1,20 @@
-package com.tudor.repository;
+package com.tudor.service;
 
-import com.tudor.service.AuthenticatedUserData;
-import com.tudor.service.RetrieveInfoFromConsole;
+import com.tudor.repository.UserAccounts;
+import com.tudor.repository.UserData;
 import com.tudor.exceptions.UserLogException;
-import com.tudor.model.Account;
 import com.tudor.model.User;
-import com.tudor.staticVariables.FactorySession;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
 
-import javax.persistence.Query;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 /**
  * Class used for user authentication operations.
  */
 
 public class UserAuthentication {
-    private final Logger logger = LogManager.getLogger(UserAuthentication.class.getName());
 
     private AuthenticatedUserData userData = AuthenticatedUserData.getInstance();
+    private UserAccounts accountData = new UserAccounts();
 
     /**
      * Prompts the user for name and password and saves the user as authenticated
@@ -44,12 +36,12 @@ public class UserAuthentication {
             System.out.println("Password: ");
             String userPassword = scan.getStringFromConsole();
 
-            User user = new User(userName, userPassword);
+            Optional<User> user = data.checkUser(new User(userName, userPassword));
 
-            if (data.checkUser(user)) {
+            if (user.isPresent()) {
                 System.out.println("Welcome " + userName);
-                userData.setLoggedUser(user);
-                userData.setUserAccounts(getUserAccounts());
+                userData.setLoggedUser(user.get());
+                userData.setUserAccounts(accountData.getUserAccounts());
             } else {
                 throw new UserLogException("Wrong username/password");
             }
@@ -71,27 +63,5 @@ public class UserAuthentication {
 
         userData.clearData();
         return true;
-    }
-
-    /**
-     * Filters all existing accounts only by the authenticated user name.
-     *
-     * @return  the list of accounts for the authenticated user
-     */
-
-    private List<Account> getUserAccounts(){
-        List<Account> list = new ArrayList<>();
-
-        try (Session session = FactorySession.getSession()) {
-            session.beginTransaction();
-            Query query = session.createQuery("select a from Account a where a.accountUser.name = :name");
-            query.setParameter("name", userData.getLoggedUser().getName());
-
-            list = query.getResultList();
-        } catch (HibernateException e) {
-            logger.error("Error retrieving account data from server");
-        }
-
-        return list;
     }
 }

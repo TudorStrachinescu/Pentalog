@@ -5,6 +5,7 @@ import com.tudor.staticVariables.AccountCurrency;
 import com.tudor.staticVariables.FactorySession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import java.math.BigDecimal;
@@ -68,7 +69,7 @@ public class TestData {
             session.save(t4);
 
             session.getTransaction().commit();
-        } catch (Exception e) {
+        } catch (HibernateException e) {
             logger.error("Connection error loading test data");
         }
     }

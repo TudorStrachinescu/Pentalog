@@ -20,7 +20,8 @@ public class Account implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "user_account_fk"))
     private User accountUser;
 
@@ -54,7 +55,7 @@ public class Account implements Serializable {
         lastUpdated = LocalDateTime.now();
     }
 
-    private String getAccountNumber() {
+    public String getAccountNumber() {
         return accountNumber;
     }
 
@@ -66,8 +67,8 @@ public class Account implements Serializable {
         return accountUser.getName();
     }
 
-    public String toFile(){
-        return '\n' + accountNumber + '\t' + accountUser.getName() + '\t' + balance + '\t' + accountType;
+    public BigDecimal getBalance() {
+        return balance;
     }
 
     public boolean withdrawal(BigDecimal amount){

@@ -85,7 +85,7 @@ public final class RetrieveInfoFromConsole {
      * @see Scanner
      */
 
-    public String getStringFromConsole(){
+    String getStringFromConsole(){
         return s.nextLine();
     }
 

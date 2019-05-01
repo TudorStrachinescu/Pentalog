@@ -26,7 +26,8 @@ public class Transaction implements Serializable {
     @Column(name = "created_time")
     private LocalDateTime createdTime;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "account_id", foreignKey = @ForeignKey(name = "account_transaction_fk"))
     private Account account;
 

@@ -13,7 +13,8 @@ public class Notification implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "user_notification_fk"))
     private User notificationUser;
 

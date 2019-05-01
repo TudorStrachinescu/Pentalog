@@ -13,7 +13,8 @@ public class Person implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "user_person_fk"))
     private User user;
 

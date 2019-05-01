@@ -80,4 +80,7 @@ public class User implements Serializable {
         return Objects.hash(name);
     }
 
+    public List<Account> getAccounts() {
+        return accounts;
+    }
 }

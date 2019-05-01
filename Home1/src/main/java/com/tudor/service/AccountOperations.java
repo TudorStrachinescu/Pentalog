@@ -2,6 +2,7 @@ package com.tudor.service;
 
 import com.tudor.model.Account;
 import com.tudor.model.User;
+import com.tudor.repository.UserAccounts;
 import com.tudor.staticVariables.AccountCurrency;
 
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 public class AccountOperations {
 
+    private UserAccounts accountCheck = new UserAccounts();
     private AuthenticatedUserData accountData = AuthenticatedUserData.getInstance();
     private RetrieveInfoFromConsole scan = new RetrieveInfoFromConsole();
 
@@ -47,14 +49,22 @@ public class AccountOperations {
      * @see AuthenticatedUserData
      */
 
-    public Account createAccount(){
+    public Optional<Account> createAccount(){
         System.out.println("Please provide account number:");
         String accountNumber = scan.getAccountNumberFromConsole();
         System.out.println("Please input balance amount:");
         BigDecimal amount = scan.getBalanceFromConsole();
         System.out.println("Please input your currency('RON' or 'EURO')");
         AccountCurrency accountCurr = scan.getCurrencyFromConsole();
-        return new Account(accountData.getLoggedUser(), accountNumber, amount, accountCurr);
+        if(!accountCheck.checkAccount(accountNumber)) {
+            return Optional.of(new Account(accountData.getLoggedUser(), accountNumber, amount, accountCurr));
+        }
+
+        return Optional.empty();
+    }
+
+    public void addAccount(Account account){
+        accountCheck.add(account);
     }
 
     /**

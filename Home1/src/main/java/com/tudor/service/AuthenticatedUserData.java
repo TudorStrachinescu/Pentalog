@@ -38,7 +38,7 @@ public class AuthenticatedUserData {
      * @param loggedUser    user that has successfully logged in
      */
 
-    public void setLoggedUser(User loggedUser) {
+    void setLoggedUser(User loggedUser) {
         this.loggedUser = loggedUser;
     }
 
@@ -73,23 +73,10 @@ public class AuthenticatedUserData {
     }
 
     /**
-     * Adds a new account received as parameter to the account list.
-     * <p>
-     * Also writer the new account to the account resource file.
-     *
-     * @param account   the account to be added to the existing user accounts
-     */
-
-    public boolean add(Account account){
-        userAccounts.add(account);
-        return true;
-    }
-
-    /**
      * Resets all instance data.
      */
 
-    public void clearData(){
+    void clearData(){
         loggedUser = null;
         userAccounts.clear();
     }

@@ -2,7 +2,7 @@ package com.tudor.view;
 
 import com.tudor.service.AuthenticatedUserData;
 import com.tudor.service.RetrieveInfoFromConsole;
-import com.tudor.repository.UserAuthentication;
+import com.tudor.service.UserAuthentication;
 import com.tudor.exceptions.UserLogException;
 
 /**
