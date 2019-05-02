@@ -55,8 +55,8 @@ public class AccountOperations {
         System.out.println("Please input balance amount:");
         BigDecimal amount = scan.getBalanceFromConsole();
         System.out.println("Please input your currency('RON' or 'EURO')");
-        AccountCurrency accountCurr = scan.getCurrencyFromConsole();
-        if(!accountCheck.checkAccount(accountNumber)) {
+        AccountCurrency accountCurr = scan.getCurrencyFromConsole(true);
+        if(!accountCheck.checkAccount(accountNumber).isPresent()) {
             return Optional.of(new Account(accountData.getLoggedUser(), accountNumber, amount, accountCurr));
         }
 
@@ -81,12 +81,12 @@ public class AccountOperations {
             System.out.println("Please choose currency for the desired transfer");
             currencyMenu();
 
-            AccountCurrency c = scan.getCurrencyFromConsole();
+            AccountCurrency c = scan.getCurrencyFromConsole(false);
 
             while(accountsOfCurrecy(c) < 2){
                 System.out.println("Please choose a valid currency");
                 currencyMenu();
-                c = scan.getCurrencyFromConsole();
+                c = scan.getCurrencyFromConsole(false);
             }
 
             List<Account> usableAccounts = getUsableAccounts(c);
@@ -123,6 +123,8 @@ public class AccountOperations {
             if(accountFrom.isPresent() && accountTo.isPresent()) {
                 if (accountFrom.get().withdrawal(BigDecimal.valueOf(amount))) {
                     accountTo.get().deposit(BigDecimal.valueOf(amount));
+                    accountCheck.updateAccount(accountFrom.get());
+                    accountCheck.updateAccount(accountTo.get());
                     System.out.println("Transfer complete!");
                 } else {
                     System.out.println("Insufficient funds");

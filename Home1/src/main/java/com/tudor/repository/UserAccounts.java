@@ -12,13 +12,14 @@ import javax.persistence.Query;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class UserAccounts {
     private final Logger logger = LogManager.getLogger(UserAccounts.class.getName());
 
     private AuthenticatedUserData userData = AuthenticatedUserData.getInstance();
 
-    public boolean checkAccount(String accountNumber){
+    public Optional<Account> checkAccount(String accountNumber){
         List<Account> list = new ArrayList<>();
 
         try(Session session = FactorySession.getSession()){
@@ -32,8 +33,15 @@ public class UserAccounts {
             logger.error("Connection error retrieving account number");
         }
 
-        return list.size() > 0;
+        if(list.size() > 1){
+            throw new HibernateException("more than one account in database with same account number");
+        }
 
+        if(list.size() == 1){
+            return Optional.of(list.get(0));
+        }
+
+        return Optional.empty();
     }
 
     /**
@@ -80,20 +88,19 @@ public class UserAccounts {
         return list;
     }
 
-    public boolean updateAccountAmount(String accountNumber, BigDecimal amount){
-        int result = 0;
+    public boolean updateAccount(Account account){
+
         try(Session session = FactorySession.getSession()){
             session.beginTransaction();
 
-            Query query = session.createQuery("update Account set balance = :balance where account_number = :account ");
-            query.setParameter("balance", accountNumber);
-            query.setParameter("account", amount);
-
-            result = query.executeUpdate();
+            session.update(account);
+            session.getTransaction().commit();
         } catch (HibernateException e){
             logger.error("Connection error updating account data");
         }
 
-        return result == 1;
+        userData.setUserAccounts(getUserAccounts());
+
+        return true;
     }
 }

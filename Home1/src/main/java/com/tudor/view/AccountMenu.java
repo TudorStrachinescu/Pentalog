@@ -6,6 +6,7 @@ import com.tudor.service.RetrieveInfoFromConsole;
 import com.tudor.service.AuthenticatedUserData;
 import com.tudor.model.User;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 

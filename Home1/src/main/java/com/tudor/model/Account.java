@@ -67,10 +67,6 @@ public class Account implements Serializable {
         return accountUser.getName();
     }
 
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
     public boolean withdrawal(BigDecimal amount){
         if(this.balance.compareTo(amount) >= 0){
             this.balance = this.balance.subtract(amount);

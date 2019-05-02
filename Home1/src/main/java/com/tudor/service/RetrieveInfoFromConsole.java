@@ -100,7 +100,7 @@ public final class RetrieveInfoFromConsole {
      * @see AccountCurrency
      */
 
-    AccountCurrency getCurrencyFromConsole(){
+    AccountCurrency getCurrencyFromConsole(boolean tip){
         String in;
 
         while(true){
@@ -109,7 +109,9 @@ public final class RetrieveInfoFromConsole {
             if(c != AccountCurrency.INVALID){
                 return c;
             }
-            System.out.println("Please input currency('RON' or 'EURO')");
+            if(tip) {
+                System.out.println("Please input currency('RON' or 'EURO')");
+            }
         }
     }
 
