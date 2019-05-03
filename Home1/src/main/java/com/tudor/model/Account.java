@@ -20,8 +20,7 @@ public class Account implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "user_account_fk"))
     private User accountUser;
 
@@ -40,7 +39,8 @@ public class Account implements Serializable {
     @Column(name = "updated_time")
     private LocalDateTime lastUpdated;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
     private List<Transaction> transactions = new LinkedList<>();
 
     public Account() {
