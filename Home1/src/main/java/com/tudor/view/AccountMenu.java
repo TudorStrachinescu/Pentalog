@@ -1,12 +1,12 @@
 package com.tudor.view;
 
+import com.tudor.exceptions.AccountException;
 import com.tudor.model.Account;
-import com.tudor.service.AccountOperations;
+import com.tudor.service.AccountService;
 import com.tudor.service.RetrieveInfoFromConsole;
 import com.tudor.service.AuthenticatedUserData;
 import com.tudor.model.User;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 
 
@@ -15,7 +15,7 @@ import java.util.Optional;
  */
 
 class AccountMenu {
-    private AccountOperations op = new AccountOperations();
+    private AccountService op = new AccountService();
     private AuthenticatedUserData userData = AuthenticatedUserData.getInstance();
     private User accessingUser;
 
@@ -35,7 +35,7 @@ class AccountMenu {
      * These operations include creating new accounts, inspecting currently stored accounts,
      * and transferring money between accounts of the same currency.
      *
-     * @see AccountOperations
+     * @see AccountService
      */
 
     void run(){
@@ -48,14 +48,18 @@ class AccountMenu {
 
             System.out.print("Choose an option: ");
 
-            int choice = scan.getIntFromConsole();
+            int choice = scan.getPositiveIntFromConsole();
 
             switch(choice){
                 case 1:
                     Optional<Account> account = op.createAccount();
                     if(account.isPresent()) {
-                        op.addAccount(account.get());
-                        System.out.println("Account created");
+                        try {
+                            op.addAccount(account.get());
+                            System.out.println("Account created");
+                        }catch (AccountException e){
+                            System.out.println(e.getMessage());
+                        }
                     } else {
                         System.out.println("Account already exists");
                     }
@@ -76,6 +80,13 @@ class AccountMenu {
                     }
                     break;
                 case 4:
+                    if(userData.getUserAccounts().size() < 1){
+                        System.out.println("There is no account information for " + accessingUser.getName());
+                    } else {
+                        op.transferPayment();
+                    }
+                    break;
+                case 5:
                     run = false;
                     break;
                 default:
@@ -95,8 +106,9 @@ class AccountMenu {
     private void printMenu(){
         System.out.println("Account menu:");
         System.out.println("\t1. Create account");
-        System.out.println("\t2. Inspect account");
+        System.out.println("\t2. Inspect accounts");
         System.out.println("\t3. Transfer between own accounts");
-        System.out.println("\t4. Back");
+        System.out.println("\t4. Transfer to account");
+        System.out.println("\t5. Back");
     }
 }

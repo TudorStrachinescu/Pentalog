@@ -2,7 +2,7 @@ package com.tudor.service;
 
 import com.tudor.repository.UserAccounts;
 import com.tudor.repository.UserData;
-import com.tudor.exceptions.UserLogException;
+import com.tudor.exceptions.UserException;
 import com.tudor.model.User;
 
 import java.util.Optional;
@@ -11,7 +11,7 @@ import java.util.Optional;
  * Class used for user authentication operations.
  */
 
-public class UserAuthentication {
+public class UserService {
 
     private AuthenticatedUserData userData = AuthenticatedUserData.getInstance();
     private UserAccounts accountData = new UserAccounts();
@@ -20,12 +20,12 @@ public class UserAuthentication {
      * Prompts the user for name and password and saves the user as authenticated
      * within AuthenticatedUserData.
      *
-     * @throws UserLogException     if user authentication fails
+     * @throws UserException     if user authentication fails
      *
      * @see AuthenticatedUserData
      */
 
-    public void logIn() throws UserLogException {
+    public void logIn() throws UserException {
         RetrieveInfoFromConsole scan = new RetrieveInfoFromConsole();
 
         if (userData.getLoggedUser() == null) {
@@ -43,10 +43,10 @@ public class UserAuthentication {
                 userData.setLoggedUser(user.get());
                 userData.setUserAccounts(accountData.getUserAccounts());
             } else {
-                throw new UserLogException("Wrong username/password");
+                throw new UserException("Wrong username/password");
             }
         } else {
-            throw new UserLogException("Cannot log in.\nApp in use by " + userData.getLoggedUser().getName());
+            throw new UserException("Cannot log in.\nApp in use by " + userData.getLoggedUser().getName());
         }
     }
 

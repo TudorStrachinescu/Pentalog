@@ -1,5 +1,7 @@
 package com.tudor.model;
 
+import com.tudor.staticVariables.Type;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -14,11 +16,11 @@ public class Transaction implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "to_account")
-    private String toAccount;
+    @Column(name = "fromAccount")
+    private String account;
 
-    @Column(name = "balance")
-    private BigDecimal balance;
+    @Column(name = "amount")
+    private BigDecimal amount;
 
     @Column(name = "details")
     private String details;
@@ -26,18 +28,22 @@ public class Transaction implements Serializable {
     @Column(name = "created_time")
     private LocalDateTime createdTime;
 
+    @Column(name = "type")
+    private Type type;
+
     @ManyToOne
     @JoinColumn(name = "account_id", foreignKey = @ForeignKey(name = "account_transaction_fk"))
-    private Account account;
+    private Account fromAccount;
 
     public Transaction() {
     }
 
-    public Transaction(String toAccount, BigDecimal balance, String details, Account account) {
-        this.toAccount = toAccount;
-        this.balance = balance;
-        this.details = details;
+    public Transaction(String account, BigDecimal amount, String details, Account fromAccount, Type type) {
         this.account = account;
+        this.amount = amount;
+        this.details = details;
+        this.fromAccount = fromAccount;
+        this.type = type;
         createdTime = LocalDateTime.now();
     }
 }

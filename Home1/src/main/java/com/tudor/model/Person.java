@@ -26,13 +26,17 @@ public class Person implements Serializable {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "email")
+    private String email;
+
     public Person() {
     }
 
-    public Person(User user, String address, String firstName, String lastName) {
+    public Person(User user, String address, String firstName, String lastName, String email) {
         this.user = user;
         this.address = address;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
     }
 }

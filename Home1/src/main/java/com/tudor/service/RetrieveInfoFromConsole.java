@@ -21,17 +21,17 @@ public final class RetrieveInfoFromConsole {
      * If the input is out of range the user will be prompted for a valid input
      * until a valid input is provided.
      *
-     * @param low   low end of the required input
-     * @param high  high end of the required input
-     * @return      the value provided from console between <code>low</code> and
-     *              <code>high</code>
+     * @param low  low end of the required input
+     * @param high high end of the required input
+     * @return the value provided from console between <code>low</code> and
+     * <code>high</code>
      */
 
-    int getIntInRangeFromConsole(int low, int high){
-        int s = getIntFromConsole();
-        while(s < low || s > high){
+    int getIntInRangeFromConsole(int low, int high) {
+        int s = getPositiveIntFromConsole();
+        while (s < low || s > high) {
             System.out.println("Please enter a number between " + low + " and " + high);
-            s = getIntFromConsole();
+            s = getPositiveIntFromConsole();
         }
 
         return s;
@@ -40,13 +40,12 @@ public final class RetrieveInfoFromConsole {
     /**
      * Captures a integer numeric value from the console and returns it as a BigDecimal.
      *
-     * @return  a BigDecimal object containing the numeric input provided from console
-     *
+     * @return a BigDecimal object containing the numeric input provided from console
      * @see BigDecimal
      */
 
-    BigDecimal getBalanceFromConsole(){
-        return new BigDecimal(getIntFromConsole());
+    BigDecimal getBigDecimalFromConsole() {
+        return new BigDecimal(getPositiveIntFromConsole());
     }
 
     /**
@@ -55,22 +54,24 @@ public final class RetrieveInfoFromConsole {
      * If the value is not numeric the user will be prompted for a valid input until
      * a valid value is provided.
      *
-     * @return  a numeric value provided from console
+     * @return a numeric value provided from console
      */
 
-    public int getIntFromConsole(){
+    public int getPositiveIntFromConsole() {
         Scanner s = new Scanner(System.in);
 
         int out;
 
-        while(true){
-            if(s.hasNextInt()){
+        while (true) {
+            if (s.hasNextInt()) {
                 out = s.nextInt();
-                s.nextLine();
-                break;
-            } else {
-                System.out.println("Please provide a numeric value");
+                if (out >= 0) {
+                    s.nextLine();
+                    break;
+                }
             }
+
+            System.out.println("Please provide a positive numeric value");
             s.nextLine();
         }
 
@@ -80,12 +81,11 @@ public final class RetrieveInfoFromConsole {
     /**
      * A wrapper method for the nextLine method of the Scanner class.
      *
-     * @return  a string containing the line provided from console
-     *
+     * @return a string containing the line provided from console
      * @see Scanner
      */
 
-    String getStringFromConsole(){
+    String getStringFromConsole() {
         return s.nextLine();
     }
 
@@ -96,20 +96,19 @@ public final class RetrieveInfoFromConsole {
      * a valid input until one is provided.
      *
      * @return an AccountCurrency value
-     *
      * @see AccountCurrency
      */
 
-    AccountCurrency getCurrencyFromConsole(boolean tip){
+    AccountCurrency getCurrencyFromConsole(boolean tip) {
         String in;
 
-        while(true){
+        while (true) {
             in = s.nextLine().toUpperCase();
             AccountCurrency c = AccountCurrency.getCurrency(in);
-            if(c != AccountCurrency.INVALID){
+            if (c != AccountCurrency.INVALID) {
                 return c;
             }
-            if(tip) {
+            if (tip) {
                 System.out.println("Please input currency('RON' or 'EURO')");
             }
         }
@@ -125,12 +124,12 @@ public final class RetrieveInfoFromConsole {
      * @return a string with a valid account format
      */
 
-    String getAccountNumberFromConsole(){
+    String getAccountNumberFromConsole() {
         String in;
 
-        while(true){
+        while (true) {
             in = s.nextLine().toUpperCase();
-            if(isValidAccountFormat(in)){
+            if (isValidAccountFormat(in)) {
                 return in;
             }
             System.out.println("Please input a valid accountNumber (RO12ABCD1234567890123456)");
@@ -138,7 +137,7 @@ public final class RetrieveInfoFromConsole {
     }
 
 
-    private boolean isValidAccountFormat(String accountNumber){
+    private boolean isValidAccountFormat(String accountNumber) {
         return accountNumber.matches("^RO\\d{2}\\p{Upper}{4}\\d{16}$");
     }
 }

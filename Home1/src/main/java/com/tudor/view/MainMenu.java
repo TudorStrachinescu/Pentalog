@@ -2,15 +2,15 @@ package com.tudor.view;
 
 import com.tudor.service.AuthenticatedUserData;
 import com.tudor.service.RetrieveInfoFromConsole;
-import com.tudor.service.UserAuthentication;
-import com.tudor.exceptions.UserLogException;
+import com.tudor.service.UserService;
+import com.tudor.exceptions.UserException;
 
 /**
  * Class used to create and display the main menu of the application.
  */
 
 public class MainMenu {
-    private UserAuthentication accessingUser = new UserAuthentication();
+    private UserService accessingUser = new UserService();
     private AuthenticatedUserData userData = AuthenticatedUserData.getInstance();
 
     /**
@@ -29,13 +29,13 @@ public class MainMenu {
 
             System.out.print("Choose an option: ");
 
-            int choice = scan.getIntFromConsole();
+            int choice = scan.getPositiveIntFromConsole();
 
             switch(choice){
                 case 1:
                     try {
                         accessingUser.logIn();
-                    } catch (UserLogException e){
+                    } catch (UserException e){
                         System.out.println(e.getMessage());
                     }
 

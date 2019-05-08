@@ -39,7 +39,7 @@ public class Account implements Serializable {
     @Column(name = "updated_time")
     private LocalDateTime lastUpdated;
 
-    @OneToMany(mappedBy = "account", cascade = {CascadeType.DETACH, CascadeType.MERGE,
+    @OneToMany(mappedBy = "fromAccount", cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
     private List<Transaction> transactions = new LinkedList<>();
 

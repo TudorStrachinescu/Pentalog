@@ -43,15 +43,11 @@ public final class UserData{
         }
 
 
-        if(users.size() > 0){
-            for(User u : users){
-                if(u.equals(user)){
-                    return Optional.of(u);
-                }
-            }
+        if(users.isEmpty()){
+            return Optional.empty();
         }
 
-        return Optional.empty();
+        return Optional.of(users.get(0));
     }
 
 }
