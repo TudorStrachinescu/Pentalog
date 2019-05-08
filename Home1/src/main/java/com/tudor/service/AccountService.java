@@ -2,11 +2,9 @@ package com.tudor.service;
 
 import com.tudor.exceptions.AccountException;
 import com.tudor.model.Account;
-import com.tudor.model.Notification;
 import com.tudor.model.Transaction;
 import com.tudor.model.User;
 import com.tudor.repository.UserAccounts;
-import com.tudor.repository.UserNotification;
 import com.tudor.staticVariables.AccountCurrency;
 import com.tudor.staticVariables.Type;
 
