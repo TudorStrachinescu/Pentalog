@@ -2,12 +2,9 @@ package com.tudor.service;
 
 import com.tudor.model.*;
 import com.tudor.staticVariables.AccountCurrency;
-import com.tudor.staticVariables.FactorySession;
 import com.tudor.staticVariables.Type;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
 
 import java.math.BigDecimal;
 
@@ -48,43 +45,5 @@ public class TestData {
         Transaction t2 = new Transaction("ro90abcd1237890123456345", BigDecimal.valueOf(321), "account details 1", a12, Type.OUTGOING);
         Transaction t3 = new Transaction("ro23dsae1234567890123456", BigDecimal.valueOf(15), "account details 1", a13, Type.OUTGOING);
         Transaction t4 = new Transaction("ro45zzds1234567890123456", BigDecimal.valueOf(321), "account details 1", a21, Type.INCOMING);
-
-        try (Session session = FactorySession.getSession()) {
-            session.beginTransaction();
-
-            session.save(u1);
-            session.save(u2);
-            session.save(u3);
-
-            session.save(p1);
-            session.save(p2);
-            session.save(p3);
-
-            session.save(n11);
-            session.save(n12);
-            session.save(n13);
-            session.save(n21);
-            session.save(n22);
-
-            session.save(a11);
-            session.save(a12);
-            session.save(a13);
-            session.save(a14);
-            session.save(a21);
-            session.save(a22);
-            session.save(a31);
-            session.save(a32);
-            session.save(a33);
-            session.save(a34);
-
-            session.save(t1);
-            session.save(t2);
-            session.save(t3);
-            session.save(t4);
-
-            session.getTransaction().commit();
-        } catch (HibernateException e) {
-            logger.error("Connection error loading test data");
-        }
     }
 }

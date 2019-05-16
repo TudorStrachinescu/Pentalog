@@ -4,9 +4,11 @@ import com.tudor.exceptions.AccountException;
 import com.tudor.model.Account;
 import com.tudor.model.Transaction;
 import com.tudor.model.User;
-import com.tudor.repository.UserAccounts;
+import com.tudor.repository.AccountRepository;
 import com.tudor.staticVariables.AccountCurrency;
 import com.tudor.staticVariables.Type;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -17,10 +19,12 @@ import java.util.Optional;
  * This class contains the methods for operations that can be made with an Account.
  */
 
+@Service
 public class AccountService {
 
     private NotificationService notifications = new NotificationService();
-    private UserAccounts accountCheck = new UserAccounts();
+    @Autowired
+    private AccountRepository accountCheck;
     private AuthenticatedUserData accountData = AuthenticatedUserData.getInstance();
     private RetrieveInfoFromConsole scan = new RetrieveInfoFromConsole();
 
@@ -67,8 +71,8 @@ public class AccountService {
     }
 
     public void addAccount(Account account) throws AccountException {
-        if (accountCheck.addAccount(account)) {
-            accountData.setUserAccounts(accountCheck.getUserAccounts());
+        if (accountCheck.save(account) != null) {
+//            accountData.setUserAccounts(accountCheck.getUserAccounts());
         } else {
             throw new AccountException("Account already exists");
         }
@@ -171,8 +175,8 @@ public class AccountService {
                 accountTo.getUserName() + "(" + accountTo.getAccountNumber()+ ')';
         notifications.addNotification(accountData.getLoggedUser(), details);
 
-        accountCheck.updateAccount(accountFrom, from);
-        accountCheck.updateAccount(accountTo, to);
+//        accountCheck.updateAccount(accountFrom, from);
+//        accountCheck.updateAccount(accountTo, to);
         System.out.println("Transfer complete!");
     }
 

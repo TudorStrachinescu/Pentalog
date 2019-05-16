@@ -1,30 +1,19 @@
 package com.tudor;
 
-import com.tudor.service.TestData;
+import com.tudor.service.AppConfig;
 import com.tudor.view.MainMenu;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import static com.tudor.staticVariables.FactorySession.closeFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  * Main class containing the static main method that starts the application.
  */
 
 public class Main {
-    private static final Logger logger = LogManager.getLogger(Main.class.getName());
-
     public static void main(String[] args) {
-        TestData.loadTestData();
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
 
-        try{
-            MainMenu menu = new MainMenu();
-            menu.runApp();
-
-        } catch (Exception e) {
-            logger.error("Application error");
-        } finally {
-            closeFactory();
-        }
+        MainMenu menu = new MainMenu();
+        menu.runApp();
     }
 }

@@ -1,9 +1,11 @@
 package com.tudor.service;
 
-import com.tudor.repository.UserAccounts;
-import com.tudor.repository.UserData;
+import com.tudor.repository.AccountRepository;
+import com.tudor.repository.UserRepository;
 import com.tudor.exceptions.UserException;
 import com.tudor.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
@@ -11,10 +13,14 @@ import java.util.Optional;
  * Class used for user authentication operations.
  */
 
+@Service
 public class UserService {
 
     private AuthenticatedUserData userData = AuthenticatedUserData.getInstance();
-    private UserAccounts accountData = new UserAccounts();
+    @Autowired
+    private AccountRepository accountData;
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * Prompts the user for name and password and saves the user as authenticated
@@ -29,19 +35,22 @@ public class UserService {
         RetrieveInfoFromConsole scan = new RetrieveInfoFromConsole();
 
         if (userData.getLoggedUser() == null) {
-            UserData data = new UserData();
             System.out.println("Logging in");
             System.out.println("Name: ");
             String userName = scan.getStringFromConsole();
             System.out.println("Password: ");
             String userPassword = scan.getStringFromConsole();
-
-            Optional<User> user = data.checkUser(new User(userName, userPassword));
+            Optional<User> user = Optional.empty();
+            try {
+                user = userRepository.findByNameAndPassword(userName, userPassword);
+            } catch (RuntimeException e){
+                e.printStackTrace();
+            }
 
             if (user.isPresent()) {
                 System.out.println("Welcome " + userName);
                 userData.setLoggedUser(user.get());
-                userData.setUserAccounts(accountData.getUserAccounts());
+//                userData.setUserAccounts(accountData.getUserAccounts());
             } else {
                 throw new UserException("Wrong username/password");
             }
