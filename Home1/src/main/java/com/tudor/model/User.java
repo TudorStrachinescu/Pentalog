@@ -29,15 +29,19 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "notificationUser", cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
-    List<Notification> notifications;
+    private List<Notification> notifications;
 
     @OneToMany(mappedBy = "accountUser", cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
-    List<Account> accounts;
+    private List<Account> accounts;
 
     @OneToOne(mappedBy = "user", cascade = {CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.PERSIST, CascadeType.REFRESH})
-    Person person;
+    private Person person;
+
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
+    private Authentication authentication;
 
     public User() {
     }

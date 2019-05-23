@@ -1,10 +1,10 @@
 package com.tudor.repository;
 
 import com.tudor.model.User;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 /**
@@ -13,6 +13,9 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
-    @Bean
+    @Transactional
     Optional<User> findByNameAndPassword(String name, String password);
+
+    @Transactional
+    void deleteByName(String name);
 }
