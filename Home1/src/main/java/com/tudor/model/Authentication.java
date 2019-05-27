@@ -26,4 +26,8 @@ public class Authentication implements Serializable {
         this.user = user;
         this.token = token;
     }
+
+    public String getToken() {
+        return token;
+    }
 }

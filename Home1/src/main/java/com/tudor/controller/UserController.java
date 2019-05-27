@@ -2,6 +2,7 @@ package com.tudor.controller;
 
 import com.tudor.dto.UserDTO;
 import com.tudor.dto.converter.UserConverter;
+import com.tudor.model.Authentication;
 import com.tudor.model.User;
 import com.tudor.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
+import java.util.Optional;
 
 @RestController("/user")
 public class UserController {
@@ -22,8 +23,13 @@ public class UserController {
     }
 
     @GetMapping
-    public UserDTO getUser(@PathParam("name") String name, @PathParam("password") String password) {
-        return this.userConverter.convertToUserDTO(this.userService.getUserByNameAndPassword(name, password).get());
+    public String getUser(@RequestBody User user) {
+        Optional<Authentication> auth = userService.checkUser(user);
+        if(auth.isPresent()){
+            return auth.get().getToken();
+        }
+
+        return "invalid credentials";
     }
 
     @PostMapping

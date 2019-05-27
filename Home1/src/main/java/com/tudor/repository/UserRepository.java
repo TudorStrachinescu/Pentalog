@@ -14,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
     @Transactional
-    Optional<User> findByNameAndPassword(String name, String password);
+    Optional<User> findByName(String name);
 
     @Transactional
     void deleteByName(String name);
