@@ -39,10 +39,6 @@ public class User implements Serializable {
             CascadeType.PERSIST, CascadeType.REFRESH})
     private Person person;
 
-    @OneToOne(mappedBy = "user", cascade = {CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.PERSIST, CascadeType.REFRESH})
-    private Authentication authentication;
-
     public User() {
     }
 
@@ -55,6 +51,14 @@ public class User implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     @Override

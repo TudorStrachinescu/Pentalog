@@ -12,9 +12,8 @@ public class Authentication implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    @OneToOne
-    @JoinColumn(name = "userId", foreignKey = @ForeignKey(name = "user_authentication_fk"))
-    private User user;
+    @Column(name = "user_id")
+    private Integer user;
 
     @Column(name = "token", nullable = false)
     private String token;
@@ -22,7 +21,7 @@ public class Authentication implements Serializable {
     public Authentication() {
     }
 
-    public Authentication(User user, String token) {
+    public Authentication(Integer user, String token) {
         this.user = user;
         this.token = token;
     }
