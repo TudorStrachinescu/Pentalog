@@ -7,7 +7,7 @@ import com.tudor.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -26,7 +26,7 @@ public class AuthenticationService {
                 return "user already logged";
             }
 
-            Authentication token = new Authentication(stored.get().getId(), LocalDate.now() + stored.get().getName());
+            Authentication token = new Authentication(stored.get().getId(), LocalDateTime.now() + stored.get().getName());
             authenticationRepository.save(token);
             return token.getToken();
 
