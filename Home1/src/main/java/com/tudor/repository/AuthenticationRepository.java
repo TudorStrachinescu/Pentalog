@@ -1,7 +1,6 @@
 package com.tudor.repository;
 
 import com.tudor.model.Authentication;
-import com.tudor.model.User;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.transaction.Transactional;
