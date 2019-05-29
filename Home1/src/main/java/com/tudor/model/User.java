@@ -53,10 +53,6 @@ public class User implements Serializable {
         return name;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public Integer getId() {
         return id;
     }

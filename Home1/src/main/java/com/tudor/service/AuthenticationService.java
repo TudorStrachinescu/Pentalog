@@ -1,5 +1,6 @@
 package com.tudor.service;
 
+import com.tudor.exception.InvalidAuthenticationException;
 import com.tudor.model.Authentication;
 import com.tudor.model.User;
 import com.tudor.repository.AuthenticationRepository;
@@ -19,11 +20,17 @@ public class AuthenticationService {
     @Autowired
     AuthenticationRepository authenticationRepository;
 
-    public String authenticateUser(User user){
+    public String authenticateUser(String name, String password, Boolean forced) throws InvalidAuthenticationException {
+        if(name == null || password == null){
+            throw new InvalidAuthenticationException("missing header parameter");
+        }
+        User user = new User(name, password);
         Optional<User> stored = userRepository.findByName(user.getName());
         if(stored.isPresent() && user.equals(stored.get())){
-            if(authenticationRepository.findByUser(stored.get().getId()).isPresent()){
-                return "user already logged";
+            if(authenticationRepository.findByUser(stored.get().getId()).isPresent() && forced != null && forced) {
+                authenticationRepository.deleteByUser(stored.get().getId());
+            }else{
+                throw new InvalidAuthenticationException("user already logged");
             }
 
             Authentication token = new Authentication(stored.get().getId(), LocalDateTime.now() + stored.get().getName());
@@ -32,7 +39,7 @@ public class AuthenticationService {
 
         }
 
-        return "invalid credentials";
+        throw new InvalidAuthenticationException("invalid credentials");
     }
 
     public void logOut(String token){
