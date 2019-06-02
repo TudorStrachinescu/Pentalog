@@ -1,5 +1,5 @@
 token:
-  expire.interval: 10
+  expire.interval: 1800 #time after which tokens expire, in seconds
 
 server:
   port : 8081
