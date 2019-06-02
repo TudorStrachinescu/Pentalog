@@ -16,7 +16,7 @@ public class Transaction implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "fromAccount")
+    @Column(name = "to_account")
     private String account;
 
     @Column(name = "amount")
@@ -32,10 +32,30 @@ public class Transaction implements Serializable {
     private Type type;
 
     @ManyToOne
-    @JoinColumn(name = "account_id", foreignKey = @ForeignKey(name = "account_transaction_fk"))
+    @JoinColumn(name = "from_account", foreignKey = @ForeignKey(name = "account_transaction_fk"))
     private Account fromAccount;
 
     public Transaction() {
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public Account getFromAccount() {
+        return fromAccount;
     }
 
     public Transaction(String account, BigDecimal amount, String details, Account fromAccount, Type type) {

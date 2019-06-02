@@ -14,7 +14,7 @@ import javax.websocket.server.PathParam;
 public class AuthenticationController {
 
     @Autowired
-    AuthenticationService authenticationService;
+    private AuthenticationService authenticationService;
 
     @PostMapping("/login")
     public ResponseEntity<String> userLogin(@RequestHeader HttpHeaders headers, @PathParam("forced") Boolean forced){
@@ -28,7 +28,7 @@ public class AuthenticationController {
     }
 
     @DeleteMapping("/logout")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     public void userLogout(@RequestParam(value = "token") String token){
         authenticationService.logOut(token);
     }

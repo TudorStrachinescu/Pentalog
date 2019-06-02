@@ -29,6 +29,10 @@ public class Person implements Serializable {
     @Column(name = "email")
     private String email;
 
+    public String getEmail() {
+        return email;
+    }
+
     public Person() {
     }
 

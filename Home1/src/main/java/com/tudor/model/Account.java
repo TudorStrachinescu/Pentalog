@@ -67,6 +67,18 @@ public class Account implements Serializable {
         return accountUser.getName();
     }
 
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public LocalDateTime getLastUpdated() {
+        return lastUpdated;
+    }
+
     public boolean withdrawal(BigDecimal amount){
         if(this.balance.compareTo(amount) >= 0){
             this.balance = this.balance.subtract(amount);
@@ -80,6 +92,9 @@ public class Account implements Serializable {
         balance = balance.add(amount);
     }
 
+    public void setLastUpdated(LocalDateTime lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
 
     @Override
     public String toString() {

@@ -26,6 +26,22 @@ public class Notification implements Serializable {
     @Column(name = "sent_time")
     private LocalDateTime sentTime;
 
+    public LocalDateTime getSentTime() {
+        return sentTime;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public User getNotificationUser() {
+        return notificationUser;
+    }
+
+    public LocalDateTime getCreatedTime() {
+        return createdTime;
+    }
+
     public Notification() {
     }
 

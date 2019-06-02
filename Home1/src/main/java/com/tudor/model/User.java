@@ -39,6 +39,10 @@ public class User implements Serializable {
             CascadeType.PERSIST, CascadeType.REFRESH})
     private Person person;
 
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
+    private Authentication authentication;
+
     public User() {
     }
 
