@@ -26,30 +26,3 @@ spring:
       connectiontimeout: 5000
       timeout: 5000
       writetimeout: 5000
-
-Configuration:
-  name: PropertiesConfig
-
-  Properties:
-    Property:
-      name: log-path
-      value: "logs"
-
-  Appenders:
-    Console:
-      name: Console_Appender
-      target: SYSTEM_OUT
-      PatternLayout:
-        pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
-
-  File:
-    name: File_Appender
-    fileName: ${log-path}/logfile.log
-    PatternLayout:
-      pattern: "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
-
-  Loggers:
-    Root:
-      level: debug
-      AppenderRef:
-        - ref: Console_Appender
