@@ -16,7 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-@RestController("/account")
+@RestController("/accounts")
 public class AccountController {
     @Autowired
     private AuthenticationService authenticationService;
