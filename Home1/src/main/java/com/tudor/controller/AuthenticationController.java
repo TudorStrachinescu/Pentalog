@@ -29,7 +29,7 @@ public class AuthenticationController {
 
     @DeleteMapping("/logout")
     @ResponseStatus(HttpStatus.OK)
-    public void userLogout(@RequestHeader(value = "token") HttpHeaders headers){
+    public void userLogout(@RequestHeader HttpHeaders headers){
         authenticationService.logOut(headers.getFirst("token"));
     }
 }
