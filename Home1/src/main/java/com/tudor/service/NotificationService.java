@@ -30,7 +30,7 @@ class NotificationService {
         notificationRepository.save(notification);
     }
 
-    @Scheduled(cron = "0 0 * * * ?")
+    @Scheduled(cron = "${notification.cron}")
     public void sendNotifications(){
         for(Notification n : notificationRepository.findAll()){
             if(n.getSentTime() == null){

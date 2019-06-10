@@ -37,7 +37,7 @@ public class AuthenticationService {
         Optional<User> stored = userRepository.findByName(user.getName());
         if(stored.isPresent() && user.equals(stored.get())){
             if(authenticationRepository.findByUser(stored.get()).isPresent() && forced != null && forced) {
-                authenticationRepository.deleteByUser(stored.get().getId());
+                authenticationRepository.deleteByUser(stored.get());
             }
             if(authenticationRepository.findByUser(stored.get()).isPresent() && (forced == null || !forced)){
                 throw new InvalidAuthenticationException("user already logged");
@@ -60,7 +60,7 @@ public class AuthenticationService {
         authenticationRepository.deleteByToken(token);
     }
 
-    @Scheduled(cron = "0 * * * * ?")
+    @Scheduled(cron = "${token.expire.cron}")
     public void checkTokens(){
         for(Authentication a : authenticationRepository.findAll()){
             LocalDateTime created = LocalDateTime.parse(a.getToken().split("_")[0], formatter);

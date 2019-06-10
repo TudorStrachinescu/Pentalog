@@ -1,5 +1,8 @@
 token:
   expire.interval: 1800 #time after which tokens expire, in seconds
+  expire.cron: '0 * * * * *' #interval at which the tokens are checked (<second> <minute> <hour> <day-of-month> <month> <day-of-week>)
+notification:
+  cron: '0 0 * * * *' #interval at which notification status should be checked (<second> <minute> <hour> <day-of-month> <month> <day-of-week>)
 
 server:
   port : 8081

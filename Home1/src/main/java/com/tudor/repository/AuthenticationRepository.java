@@ -18,5 +18,5 @@ public interface AuthenticationRepository extends CrudRepository<Authentication,
     void deleteByToken(String Token);
 
     @Transactional
-    void deleteByUser(Integer user);
+    void deleteByUser(User user);
 }
