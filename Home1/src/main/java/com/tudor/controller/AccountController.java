@@ -42,7 +42,7 @@ public class AccountController {
         return ResponseEntity.badRequest().build();
     }
 
-    @PostMapping("/accounts")
+    @PostMapping("/account")
     public ResponseEntity<AccountDTO> createAccount(@RequestHeader HttpHeaders headers, @RequestBody AccountDTO account){
         Optional<Authentication> token = authenticationService.getByToken(headers.getFirst("token"));
 
